@@ -1,0 +1,78 @@
+* {
+    font-family: Helvetica;
+    margin: 0px;
+}
+
+header {
+    padding: 1.5%;
+    display: flex;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.headerTitle {
+    margin-left: 2%;
+}
+
+.headerLinks {
+    display: flex;
+    align-items: center;
+    margin-left: 50%;
+}
+
+.headerLinks a {
+    margin-left: 1%;
+    width: 130px;
+}
+
+.mainContent {
+    display: flex;
+    margin-top: 15%;
+    margin-left: 2%;
+}
+
+.logoContainer{
+    max-width: 45%;
+}
+
+.logoHomePage {
+    max-width: 100%;
+}
+
+.formTipoLevantamiento {
+    margin-left: 10%;
+    margin-top: 2%;
+}
+
+.formTipoLevantamiento * {
+ margin-top: 3.5%;
+}
+
+.button {
+    top: 606px;
+	left: 1097px;
+	width: 173px;
+	height: 50px;
+	-ms-border-radius: 20px;
+	-o-border-radius: 20px;
+	-moz-border-radius: 20px;
+	-webkit-border-radius: 20px;
+	border-radius: 20px;
+	background:rgba(0,40,84,1);
+    color: white;
+    font-size: medium;
+}
+
+.input {
+    top: 5%;
+	left: 7%;
+	width: 150%;
+	height: 60px;
+    padding: 20px;
+	-ms-border-radius: 20px;
+	-o-border-radius: 20px;
+	-moz-border-radius: 20px;
+	-webkit-border-radius: 20px;
+	border-radius: 20px;
+	background:rgba(217,217,217,1);
+    font-size: medium;
+}
