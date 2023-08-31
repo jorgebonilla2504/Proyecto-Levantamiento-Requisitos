@@ -7,19 +7,28 @@ header {
     padding: 1.5%;
     display: flex;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    max-height: 10%;
 }
 
 .headerTitle {
     margin-left: 2%;
+    min-width: 10%;
+    max-width: 10%;
+}
+
+.headerTitle img {
+    max-width: 100%;
 }
 
 .headerLinks {
     display: flex;
     align-items: center;
-    margin-left: 50%;
+    width: -webkit-fill-available;
+    margin-right: 5%;
+    justify-content: flex-end;
 }
 
-.headerLinks a {
+Link {
     margin-left: 1%;
     width: 130px;
 }
@@ -30,7 +39,7 @@ header {
     margin-left: 2%;
 }
 
-.logoContainer{
+.logoContainer {
     max-width: 45%;
 }
 
@@ -38,41 +47,55 @@ header {
     max-width: 100%;
 }
 
-.formTipoLevantamiento {
+.form {
     margin-left: 10%;
+    margin-right: 15%;
     margin-top: 2%;
 }
 
-.formTipoLevantamiento * {
- margin-top: 3.5%;
+.form * {
+    margin-bottom: 20px;
+}
+
+.form p {
+    font-weight: bold;
 }
 
 .button {
-    top: 606px;
-	left: 1097px;
-	width: 173px;
-	height: 50px;
-	-ms-border-radius: 20px;
-	-o-border-radius: 20px;
-	-moz-border-radius: 20px;
-	-webkit-border-radius: 20px;
-	border-radius: 20px;
-	background:rgba(0,40,84,1);
+    width: 150px;
+    height: 45px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
+    border-radius: 20px;
+    background: rgba(0, 40, 84, 1);
     color: white;
     font-size: medium;
 }
 
 .input {
-    top: 5%;
-	left: 7%;
-	width: 150%;
-	height: 60px;
-    padding: 20px;
-	-ms-border-radius: 20px;
-	-o-border-radius: 20px;
-	-moz-border-radius: 20px;
-	-webkit-border-radius: 20px;
-	border-radius: 20px;
-	background:rgba(217,217,217,1);
+    width: 450px;
+    padding: 10px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
+    border-radius: 20px;
+    border-style: none;
+    background: rgba(217, 217, 217, 1);
     font-size: medium;
+}
+
+.listacheckbox {
+    padding: 20px;
+    width: 430px;
+    height: 100px;
+    overflow-y: scroll;
+    border-radius: 20px;
+    background: rgba(217, 217, 217, 1);
+}
+
+textarea {
+    resize: none;
 }
