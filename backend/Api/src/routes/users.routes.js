@@ -1,10 +1,10 @@
 import { Router } from 'express';
 
-import { getUsers } from '../controllers/users.controller';
+import { Login, InsertarAdministrador } from '../controllers/users.controller';
 
 const router = Router();
 
-/* router.get('/getPuestos',getPuestos); */
-router.get('/getUsers', getUsers);
+router.post('/VerificarCredenciales', Login);
+router.post('/InsertarAdministrador', InsertarAdministrador);
 
 export default router;
