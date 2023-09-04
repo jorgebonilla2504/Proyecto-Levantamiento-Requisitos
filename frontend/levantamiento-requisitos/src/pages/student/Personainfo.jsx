@@ -1,17 +1,17 @@
-import StudentHeader from "../../components/StudentHeader"
+/* eslint-disable react/prop-types */
+import StudentHeader from '../../components/StudentHeader';
+import { setGlobalState } from '../../state/FormState';
 export default function Personalinfo(){
-    let type = 1;
-    let action = '';
-    if(type == 1){
-        action = '/levantamientoRn'
-    }
-    else{
-        action = '/levantamientoRequisitos'
+    
+    function handleNextStep(e){
+        e.preventDefault();
+        setGlobalState('step2', false);
+        setGlobalState('step3', true);
     }
 
     return <>
         <StudentHeader></StudentHeader>
-        <form className="form" action={action}>
+        <form className="form" onSubmit={handleNextStep}>
             <h1>Datos Personales</h1>
             <label htmlFor="carnet">Ingrese el número de carnet:</label><br />
             <input className="input" type="text" name="carnet" id="carnet" required/><br />
