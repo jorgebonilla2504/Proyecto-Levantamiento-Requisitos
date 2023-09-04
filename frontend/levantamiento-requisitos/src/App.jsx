@@ -1,27 +1,17 @@
-import Home from "./pages/HomePage"
 import Login from './pages/admin/Login'
-import Personalinfo from "./pages/student/Personainfo"
-import RNForm from "./pages/student/RNform"
+import Form from "./pages/student/Form"
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Home/>
+    element: <Form/>
   },
   {
     path: '/login',
     element: <Login/>
   },
-  {
-    path: '/personalinfo',
-    element: <Personalinfo/>
-  },
-  {
-    path: '/levantamientoRn',
-    element: <RNForm/>
-  },
-])
+]);
 
 function App() {
   return (
