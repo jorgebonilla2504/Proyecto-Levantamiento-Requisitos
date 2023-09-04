@@ -1,13 +1,10 @@
 /* eslint-disable react/prop-types */
 import { setGlobalState } from "../state/FormState";
-export default function ConfirmModal(props) {
+export default function ConfirmModalError(props) {
 
     function handleCloseModal() {
-        setGlobalState('openConfirmationModal', false);
+        setGlobalState('openConfirmationModalError', false);
         setGlobalState('openInputModal', false);
-        if(props.function() != undefined){
-            props.function();
-        }
     }
 
     return <>

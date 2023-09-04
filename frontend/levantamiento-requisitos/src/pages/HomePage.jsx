@@ -3,9 +3,14 @@ import logoTec from '../assets/tec.jpg';
 import { useState } from 'react';
 import { setGlobalState, useGlobalState } from '../state/FormState';
 import InputModal from '../components/InputModal';
+import { Config } from '../../config';
+import ConfirmModal from '../components/ConfirmModal';
+import ConfirmModalError from '../components/ConfirmationModalError';
 export default function HomePage() {
     const [type, setType] = useState('1');
     const [openInputModal] = useGlobalState("openInputModal");
+    const [openConfirmationModal] = useGlobalState("openConfirmationModal");
+    const [openConfirmationModalError] = useGlobalState("openConfirmationModalError");
     const handleChange = (e) => {
         setType(e.target.value);
         setGlobalState("type", e.target.value);
@@ -21,6 +26,30 @@ export default function HomePage() {
         setGlobalState("openInputModal", true);
     }
 
+    function deleteRequest(carnet, token){
+        const data = {
+            'carnet': carnet,
+            'token': token
+        }
+
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        };
+        fetch(Config.api_url + `DeleteRequest`, requestOptions)
+            .then((response) => {
+                if(!response.ok){
+                    setGlobalState('openConfirmationModalError', true);
+                }
+                else{
+                    setGlobalState('openConfirmationModal', true);
+                }
+            })
+    }
+
     return <>
         <header>
             <div className="headerTitle">
@@ -34,9 +63,23 @@ export default function HomePage() {
         {openInputModal && 
             <InputModal 
                 title="Cancelar Solicitud" 
-                label="Ingrese el token de la solicitud a eliminar:"
                 button="Eliminar"
+                function={deleteRequest}
             ></InputModal>
+        }
+        {
+            openConfirmationModal && 
+            <ConfirmModal
+                title="Éxito" 
+                label="Solicitud eliminada">
+            </ConfirmModal>
+        }
+        {
+            openConfirmationModalError && 
+            <ConfirmModalError
+                title="Error" 
+                label="Token y/o carnet incorrectos.">
+            </ConfirmModalError>
         }
         <div className="mainContent">
             <div className='logoContainer'>

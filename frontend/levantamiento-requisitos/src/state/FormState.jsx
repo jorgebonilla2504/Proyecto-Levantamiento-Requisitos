@@ -8,7 +8,10 @@ const {setGlobalState, useGlobalState} = createGlobalState({
     personalinfo: {},
     levantamientoinfo: {},
     token: undefined,
-    openInputModal: false
+    openInputModal: false,
+    openConfirmationModalError: false,
+    openConfirmationModal: false,
+    isLoggedIn: false
 });
 
 export {setGlobalState, useGlobalState};
