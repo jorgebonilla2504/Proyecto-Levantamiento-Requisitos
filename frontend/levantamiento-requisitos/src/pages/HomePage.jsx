@@ -42,7 +42,16 @@ export default function HomePage() {
         fetch(Config.api_url + `DeleteRequest`, requestOptions)
             .then((response) => {
                 if(!response.ok){
-                    setGlobalState('openConfirmationModalError', true);
+                    console.log('Es rn')
+                    fetch(Config.api_url + `DeleteRequestRn`, requestOptions)
+                        .then((response) => {
+                            if(!response.ok){
+                                setGlobalState('openConfirmationModalError', true);
+                            }
+                            else{
+                                setGlobalState('openConfirmationModal', true);
+                            }
+                        })
                 }
                 else{
                     setGlobalState('openConfirmationModal', true);

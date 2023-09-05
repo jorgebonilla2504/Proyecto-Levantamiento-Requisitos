@@ -60,7 +60,7 @@ export default function NewAdmin() {
                     </ConfirmModalError>
                 }
                 <div className='form'>
-
+                    <h1>Nuevo Administrador</h1>
                     <form onSubmit={postAdmin}>
                         <label htmlFor="nombre">Nombre:</label>
                         <br />
@@ -74,7 +74,7 @@ export default function NewAdmin() {
                         <br />
                         <input className='input' type='password' name='pass' value={pass} onChange={event => setPass(event.target.value)} />
                         <br />
-                        <button className='button' type="submit">Iniciar sesión</button>
+                        <button className='button' type="submit">Crear Usuario</button>
                     </form>
                 </div>
             </>

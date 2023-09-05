@@ -1,5 +1,5 @@
 const Config = {
-    api_url: "http://localhost:3003/"
+    api_url: "http://localhost:3001/"
 }
 
 export { Config };

@@ -5,9 +5,6 @@ export default function ConfirmModal(props) {
     function handleCloseModal() {
         setGlobalState('openConfirmationModal', false);
         setGlobalState('openInputModal', false);
-        if(props.function() != undefined){
-            props.function();
-        }
     }
 
     return <>

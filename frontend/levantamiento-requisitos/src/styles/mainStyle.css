@@ -96,6 +96,12 @@ a {
     background: rgba(217, 217, 217, 1);
 }
 
+.listacheckbox label{
+    margin-right: 3%;
+    font-size: large;
+    font-weight: bold;
+}
+
 textarea {
     resize: none;
 }
