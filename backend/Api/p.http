@@ -1,8 +1,21 @@
-POST http://localhost:3001/InsertarAdministrador HTTP/1.1
+
+
+POST http://localhost:3001/InsertRequestRn HTTP/1.1
 content-type: application/json
 
 {   
-    "nombre": "Luis",
-    "email": "lj@gmail.com",
-    "clave": "123456"
+      "carnet": 202077101,
+      "nombreCompleto": "Juan Perez",
+      "idPlan": 5,
+      "email": "ljrivel16@gmail.com",
+      "comentario": "Comentario",
+      "idFormulario": 2,
+      "idSede": 1,
+      "motivoLevantamiento": "Motivo",
+      "nivelRn": 1,
+      "cursosMXRNString": "1,2",
+      "cursosRNSrign": "1,2"
+
 }
+
+
