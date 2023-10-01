@@ -12,6 +12,8 @@ import {
   UpdateSolicitud,
   UpdateSolicitudNotificacion,
   ObtenerSolicitudesRNPorId,
+  ObtenerCursosMXSolicitudRN,
+  ObtenerCursosXSolicitudRN,
 } from '../controllers/request.controller';
 
 const router = Router();
@@ -26,5 +28,7 @@ router.post('/UpdateSolicitudRN', UpdateSolicitudNotificacion);
 router.post('/GetRequestsNormal', GetRequestsNormal);
 router.post('/GetRequestsRN', GetRequestsRN);
 router.post('/ObtenerSolicitudesRNPorId', ObtenerSolicitudesRNPorId);
+router.post('/ObtenerCursosMXSolicitudRN', ObtenerCursosMXSolicitudRN);
+router.post('/ObtenerCursosXSolicitudRN', ObtenerCursosXSolicitudRN);
 
 export default router;

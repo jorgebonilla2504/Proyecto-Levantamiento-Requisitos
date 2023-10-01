@@ -318,3 +318,37 @@ export const ObtenerSolicitudesRNPorId = async (req, res) => {
     res.status(500).json({ error: 'Error al obtener solicitudes' });
   }
 };
+
+export const ObtenerCursosXSolicitudRN = async (req, res) => {
+  try {
+    const { id } = req.body;
+    const connection = await getConnection();
+    const [rows] = await connection.execute(
+      'CALL ObtenerCursosXsolicitudRNDeSolicitudId(?)',
+      [idSolicitud]
+    );
+    connection.release();
+    connection.destroy();
+    res.json(rows[0]);
+  } catch (error) {
+    console.error('Error al obtener solicitudes');
+    res.status(500).json({ error: 'Error al obtener solicitudes' });
+  }
+};
+
+export const ObtenerCursosMXSolicitudRN = async (req, res) => {
+  try {
+    const { id } = req.body;
+    const connection = await getConnection();
+    const [rows] = await connection.execute(
+      'CALL ObtenerCursosMXsolicitudRNDeSolicitudId(?)',
+      [idSolicitud]
+    );
+    connection.release();
+    connection.destroy();
+    res.json(rows[0]);
+  } catch (error) {
+    console.error('Error al obtener solicitudes');
+    res.status(500).json({ error: 'Error al obtener solicitudes' });
+  }
+};
