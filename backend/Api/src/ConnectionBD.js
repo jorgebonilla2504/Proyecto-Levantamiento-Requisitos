@@ -3,7 +3,7 @@ import mysql from 'mysql2/promise';
 const dbConfig = {
   host: 'us-cdbr-east-05.cleardb.net',
   user: 'b7af72ef51bc8c',
-  password: '85c6bb0e5ed49c5',
+  password: 'bb6d67f2',
   database: 'heroku_d23e98632d70552',
 };
 
