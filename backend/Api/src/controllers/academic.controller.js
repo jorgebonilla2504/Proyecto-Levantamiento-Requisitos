@@ -338,11 +338,11 @@ export const insertCursoDesdeJson = async (req, res) => {
 
 export const insertarFormulario = async (req, res) => {
   try {
-    const { fechaVencimiento, nombre, smestre, periodo } = req.body;
+    const { fechaVencimiento, nombre, semestre, periodo } = req.body;
     const connection = await getConnection();
     const [rows] = await connection.execute(
       'CALL InsertarFormularioConPeriodo(?, ?, ?)',
-      [fechaVencimiento, nombre, smestre, periodo]
+      [fechaVencimiento, nombre, semestre, periodo]
     );
 
     res.json({ mensaje: 'Formulario insertado correctamente' });
