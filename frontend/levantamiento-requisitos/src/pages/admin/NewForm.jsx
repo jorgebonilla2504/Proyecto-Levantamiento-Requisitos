@@ -1,24 +1,26 @@
-import { setGlobalState, useGlobalState } from "../../state/FormState";
-import AdminHeader from "../../components/AdminHeader";
+import { setGlobalState, useGlobalState } from "../../state/FormState"; import AdminHeader from "../../components/AdminHeader";
 import { useState } from "react";
 import { Config } from "../../../config";
 import { useNavigate } from "react-router-dom";
 import ConfirmModal from "../../components/ConfirmModal";
 import ConfirmModalError from "../../components/ConfirmationModalError";
-export default function NewAdmin() {
+
+export default function NewForm() {
     const [isLoggedIn] = useGlobalState("isLoggedIn");
+    const [fecha, setFecha] = useState('');
     const [nombre, setNombre] = useState('');
-    const [email, setEmail] = useState('');
-    const [pass, setPass] = useState('');
+    const [periodo, setPeriodo] = useState('1');
     const [openConfirmationModal] = useGlobalState('openConfirmationModal');
     const [openConfirmationModalError] = useGlobalState('openConfirmationModalError');
     const navigate = useNavigate();
-    function postAdmin(e) {
+    function postForm(e) {
         e.preventDefault();
+        console.log(periodo);
         const data = {
+            'fechaVencimiento': fecha,
             'nombre': nombre,
-            'email': email,
-            'clave': pass
+            'semestre': periodo,
+            'periodo': periodo
         }
 
         const requestOptions = {
@@ -29,7 +31,7 @@ export default function NewAdmin() {
             body: JSON.stringify(data),
         };
 
-        fetch(Config.api_url + 'InsertarAdministrador', requestOptions)
+        fetch(Config.api_url + 'InsertarFormulario', requestOptions)
             .then((response) => {
                 if (!response.ok) {
                     setGlobalState('openConfirmationModalError', true);
@@ -48,7 +50,7 @@ export default function NewAdmin() {
                     openConfirmationModal &&
                     <ConfirmModal
                         title="Éxito"
-                        label="Nuevo usuario creado">
+                        label="Formulario creado.">
                         function={navigate('/home')}
                     </ConfirmModal>
                 }
@@ -61,20 +63,25 @@ export default function NewAdmin() {
                 }
                 <div className='form'>
                     <h1>Nuevo Administrador</h1>
-                    <form onSubmit={postAdmin}>
+                    <form onSubmit={postForm}>
+                        <label htmlFor="fecha">Fecha de vencimiento:</label>
+                        <br />
+                        <input className='input' type="date" name='fecha' value={fecha} onChange={event => setFecha(event.target.value)} />
+                        <br />
                         <label htmlFor="nombre">Nombre:</label>
                         <br />
                         <input className='input' type="text" name='nombre' value={nombre} onChange={event => setNombre(event.target.value)} />
                         <br />
-                        <label htmlFor="correo">Correo:</label>
-                        <br />
-                        <input className='input' type="text" name='correo' value={email} onChange={event => setEmail(event.target.value)} />
-                        <br />
-                        <label htmlFor="pass">Contraseña:</label>
-                        <br />
-                        <input className='input' type='password' name='pass' value={pass} onChange={event => setPass(event.target.value)} />
-                        <br />
-                        <button className='button' type="submit">Crear Usuario</button>
+
+                        <label htmlFor="periodo">Seleccione un periodo:</label><br />
+
+                        <select className='input' name="periodo" value={periodo} onChange={event => setPeriodo(event.target.value)}>
+                            <option value="1">I Semestre</option>
+                            <option value="2">II Semestre</option>
+                            <option value="3">Verano</option>
+                        </select><br/>
+
+                        <button className='button' type="submit">Crear Formulario</button>
                     </form>
                 </div>
             </>

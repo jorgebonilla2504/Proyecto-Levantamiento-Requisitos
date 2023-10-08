@@ -341,7 +341,7 @@ export const insertarFormulario = async (req, res) => {
     const { fechaVencimiento, nombre, semestre, periodo } = req.body;
     const connection = await getConnection();
     const [rows] = await connection.execute(
-      'CALL InsertarFormularioConPeriodo(?, ?, ?)',
+      'CALL InsertarFormularioConPeriodo(?, ?, ?, ?)',
       [fechaVencimiento, nombre, semestre, periodo]
     );
 

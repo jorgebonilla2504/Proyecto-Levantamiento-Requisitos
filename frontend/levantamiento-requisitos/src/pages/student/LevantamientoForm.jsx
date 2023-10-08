@@ -19,7 +19,7 @@ export default function LevantamientoForm() {
             'idPlan': personalinfo.plan,
             'email': personalinfo.correo,
             'comentario': comentario,
-            'idFormulario': '2',
+            'idFormulario': '1',
             'idSede': personalinfo.sede,
             'motivoLevantamiento': motivo,
             'idCursoLevanta': cursolevantar,

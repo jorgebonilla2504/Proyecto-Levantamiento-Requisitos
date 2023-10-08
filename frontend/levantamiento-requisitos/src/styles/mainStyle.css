@@ -96,7 +96,7 @@ a {
     background: rgba(217, 217, 217, 1);
 }
 
-.listacheckbox label{
+.listacheckbox label {
     margin-right: 3%;
     font-size: large;
     font-weight: bold;
@@ -112,7 +112,7 @@ textarea {
     position: fixed;
     top: 0;
     left: 0;
-    background-color: rgb(0, 0, 0,.5);
+    background-color: rgb(0, 0, 0, .5);
     justify-content: center;
     display: flex;
     align-items: center;
@@ -135,4 +135,48 @@ textarea {
 
 .modalbuttons {
     display: flex;
+}
+
+.main-container {
+    margin-top: 4%;
+    margin-left: 8%;
+}
+
+.main-container * {
+    margin-bottom: 3%;
+}
+
+.main-container a {
+    font-size: larger;
+}
+
+/* Tabla.css */
+.table-container {
+    border: 1px solid #ccc;
+    border-collapse: collapse;
+    width: fit-content;
+    margin-bottom: 20px;
+    margin-left: 4%;
+}
+
+.table-container th,
+.table-container td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+    max-width: 150px;
+}
+
+.table-container th {
+    background-color: #f2f2f2;
+}
+
+/* Estilo para las filas impares (opcional) */
+.table-container tbody tr:nth-child(odd) {
+    background-color: #f5f5f5;
+}
+
+/* Estilo para las filas al pasar el mouse (opcional) */
+.table-container tbody tr:hover {
+    background-color: #e0e0e0;
 }

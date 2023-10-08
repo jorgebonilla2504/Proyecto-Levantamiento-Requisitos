@@ -83,7 +83,7 @@ export default function RNForm() {
             'idPlan': personalinfo.plan,
             'email': personalinfo.correo,
             'comentario': motivo,
-            'idFormulario': '2',
+            'idFormulario': '1',
             'idSede': personalinfo.sede,
             'motivoLevantamiento': motivo,
             'nivelRn': rn,

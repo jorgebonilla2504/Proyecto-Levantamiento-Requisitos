@@ -11,13 +11,18 @@ export default function AdminHeader(){
         setGlobalState('isLoggedIn', true);
         navigate('/newadmin');
     }
+
+    function toHome(){
+        setGlobalState('isLoggedIn', true);
+        navigate('/home');
+    }
     return <>
         <header>
             <div className="headerTitle">
                 <h2>Administrador</h2>
             </div>
             <div className="headerLinks">
-                <a href='/home'>Inicio</a>
+                <a onClick={toHome} href='#'>Inicio</a>
                 <a href="#">Búsqueda por carnet</a>
                 <a onClick={toNewAdmin} href="#">Nuevo Administrador</a>
                 <a onClick={close} href="#">Cerrar sesión</a>
