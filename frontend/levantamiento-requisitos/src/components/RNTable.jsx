@@ -144,6 +144,7 @@ export default function RNTable(props) {
       .then((response) => {
         if (response) {
           setGlobalState('openConfirmationModal', true);
+          setComentario("");
           updateData();
         }
       })
@@ -176,6 +177,7 @@ export default function RNTable(props) {
       .then((response) => {
         if (response) {
           setGlobalState('openConfirmationModal', true);
+          setComentario("");
           updateData();
         }
       })

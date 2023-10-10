@@ -41,6 +41,7 @@ export default function LevantamientosTable(props) {
       .then((response) => {
         if (response) {
           setGlobalState('openConfirmationModal', true);
+          setComentario("");
           updateData();
         }
       })
@@ -101,6 +102,7 @@ export default function LevantamientosTable(props) {
       .then((response) => {
         if (response) {
           setGlobalState('openConfirmationModal', true);
+          setComentario("");
           updateData();
         }
       })
