@@ -4,7 +4,10 @@ import { useEffect, useState } from 'react';
 import { Config } from '../../../config';
 import LevantamientosTable from '../../components/LevantamientosTable';
 import RNTable from '../../components/RNTable';
+import { setGlobalState } from '../../state/FormState';
+import { useNavigate } from "react-router-dom";
 function FormResults() {
+    const navigate = useNavigate();
     const { id } = useParams();
     const [tipo, setTipo] = useState(1);
     const [levChecked, setLevChecked] = useState(1);
@@ -14,6 +17,11 @@ function FormResults() {
     useEffect(() => {
         updateData();
     }, []);
+
+    function toAdminForm() {
+        setGlobalState('isLoggedIn', true);
+        navigate('/adminform/' + id);
+    }
 
     function handleChecked() {
         if (levChecked) {
@@ -77,7 +85,10 @@ function FormResults() {
                 <input className='checkbox' checked={levChecked} onChange={handleChecked} type="checkbox" />
                 <label htmlFor="">Condición RN</label>
                 <input className='checkbox' checked={rnChecked} onChange={handleChecked} type="checkbox" /><br />
-                <button className='button' onClick={() => {updateData()}}>Actualizar resultados</button>
+                <div className='modalbuttons'>
+                    <button className='button' onClick={() => { updateData() }}>Actualizar resultados</button>
+                    <button className='button' onClick={() => { toAdminForm() }}>Nueva solicitud</button>
+                </div>
             </div>
             {tipo == 1 && <LevantamientosTable data={levResults}></LevantamientosTable>}
             {tipo == 2 && <RNTable data={rnResults} ></RNTable>}

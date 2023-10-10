@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import StudentHeader from '../../components/StudentHeader';
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
@@ -5,21 +6,25 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import { Config } from '../../../config';
 import { useGlobalState, setGlobalState } from '../../state/FormState';
-export default function LevantamientoForm() {
+export default function LevantamientoForm(props) {
     const [cursos, setCursos] = useState([]);
     const [cursomatricular, setCursoMatricular] = useState('1');
     const [cursolevantar, setCursoLevantar] = useState('1');
     const [comentario, setComentario] = useState('');
     const [motivo, setMotivo] = useState('');
     const [personalinfo] = useGlobalState('personalinfo');
+    let id = props.id;
     function insertRequest() {
+        if (!id){
+            id = '1';
+        }
         const data = {
             'carnet': personalinfo.carnet,
             'nombreCompleto': personalinfo.nombre,
             'idPlan': personalinfo.plan,
             'email': personalinfo.correo,
             'comentario': comentario,
-            'idFormulario': '1',
+            'idFormulario': id,
             'idSede': personalinfo.sede,
             'motivoLevantamiento': motivo,
             'idCursoLevanta': cursolevantar,

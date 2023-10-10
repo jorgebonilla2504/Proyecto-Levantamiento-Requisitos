@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import StudentHeader from '../../components/StudentHeader';
 import { confirmAlert } from 'react-confirm-alert';
@@ -7,7 +8,7 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import { Config } from '../../../config';
 import { setGlobalState, useGlobalState } from '../../state/FormState';
-export default function RNForm() {
+export default function RNForm(props) {
     const navigate = useNavigate();
     const [personalinfo] = useGlobalState('personalinfo');
     const [cursos, setCursos] = useState('');
@@ -15,6 +16,7 @@ export default function RNForm() {
     const [rn, setRn] = useState('');
     const [motivo, setMotivo] = useState('');
     const [cursosMatricula, setCursosMatricula] = useState([]);
+    let id = props.id;
     useEffect(() => {
         fetch(Config.api_url + `ListaCursos`)
             .then(async (response) => {
@@ -70,6 +72,9 @@ export default function RNForm() {
     }
 
     function insertRequest() {
+        if (!id) {
+            id = '1';
+        }
         let cursosMXRNString = "";
         let cursosRNSrign = "";
         for (let i = 0; i < cursosMatricula.length; i++) {
@@ -97,7 +102,7 @@ export default function RNForm() {
             'idPlan': personalinfo.plan,
             'email': personalinfo.correo,
             'comentario': motivo,
-            'idFormulario': '1',
+            'idFormulario': id,
             'idSede': personalinfo.sede,
             'motivoLevantamiento': motivo,
             'nivelRn': rn,

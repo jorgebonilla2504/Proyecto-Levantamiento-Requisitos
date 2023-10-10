@@ -98,7 +98,6 @@ export default function HomePage() {
                 <form onSubmit={handleNextStep}>
                     <label htmlFor="tiposLevantamiento">Seleccione el tipo de levantamiento a solicitar:</label>
                     <br />
-                    {/* TO DO: fill options with DB values */}
                     <select onChange={handleChange} className='input' id="tiposLevantamiento" name="type" value={type}>
                         <option value="1">Levantamiento de requisitos</option>
                         <option value="2">Condición RN</option>

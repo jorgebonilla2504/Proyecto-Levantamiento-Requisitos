@@ -1,3 +1,4 @@
+import AdminForm from './pages/admin/AdminForm';
 import AdminHomepage from './pages/admin/AdminHomePage';
 import FormResults from './pages/admin/FormResults';
 import Login from './pages/admin/Login'
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
   {
     path: '/newform',
     element: <NewForm/>
+  },
+  {
+    path: '/adminform/:id',
+    element: <AdminForm/>
   }
 ]);
 
