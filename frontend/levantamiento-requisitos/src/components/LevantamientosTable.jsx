@@ -4,6 +4,7 @@ import ConfirmModal from "../components/ConfirmModal";
 import { setGlobalState, useGlobalState } from "../state/FormState";
 /* eslint-disable react/prop-types */
 export default function LevantamientosTable({ data }) {
+  console.log(data);
   const [comentario, setComentario] = useState("");
   const [openConfirmationModal] = useGlobalState('openConfirmationModal');
   function aprobar(id) {
@@ -89,6 +90,7 @@ export default function LevantamientosTable({ data }) {
             <th>Curso a Levantar</th>
             <th>Comentarios</th>
             <th>Otros Detalles</th>
+            <th>Estado actual</th>
             <th>Agregar observaciones</th>
             <th>Aprobar</th>
             <th>Rechazar</th>
@@ -105,7 +107,8 @@ export default function LevantamientosTable({ data }) {
               <td>{item.nombreCursoLevantar}</td>
               <td>{item.comentario}</td>
               <td>{item.razon}</td>
-              <td><input type="text" value={comentario} onChange={event => setComentario(event.target.value)} /></td>
+              <td>{item.estadoTexto}</td>
+              <td><p>{item.comentarioEncargado}</p><input type="text" onChange={event => setComentario(event.target.value)} /></td>
               <td><button onClick={() => { aprobar(item.fkSolicitud) }}>Aprobar</button></td>
               <td><button onClick={() => { rechazar(item.fkSolicitud) }}>Rechazar</button></td>
             </tr>

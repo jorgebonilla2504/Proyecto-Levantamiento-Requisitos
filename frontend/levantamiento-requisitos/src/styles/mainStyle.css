@@ -164,7 +164,11 @@ textarea {
     border: 1px solid #ccc;
     padding: 8px;
     text-align: left;
-    max-width: 150px;
+    max-width: 120px;
+}
+
+.table-container input {
+    max-width: 110px;
 }
 
 .table-container th {

@@ -37,7 +37,7 @@ function FormResults() {
                 setLevResults(solicitudes);
             })
 
-            fetch(Config.api_url + 'GetRequestsRN', requestOptions)
+        fetch(Config.api_url + 'GetRequestsRN', requestOptions)
             .then(async (response) => {
                 if (!response.ok) {
                     return 'No se pudo realizar el request';

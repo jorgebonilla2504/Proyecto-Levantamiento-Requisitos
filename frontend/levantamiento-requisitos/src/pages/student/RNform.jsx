@@ -31,50 +31,64 @@ export default function RNForm() {
     }, []);
 
     function validateForm() {
-        if (cursosMatricula.length > 0 && cursosRn.length > 0 && rn != '' && motivo != '') {
+        console.log()
+        if (cursosMatricula.length > 0 && cursosRn.length > 0 && rn != '' && rn > 0) {
             return true;
         }
         return false;
     }
 
+    function validateCursos(){
+        for (let i = 0; i < cursosRn.length; i++) {
+            if (cursosMatricula.includes(cursosRn[i])) {
+              return false; 
+            }
+          }
+          return true;
+    }
+
     function handleCursosRn(idCurso) {
-        const nuevoArray = cursosRn.filter((elemento) => elemento !== idCurso);
-        if (nuevoArray.length == cursosRn.length) {
-            cursosRn.push(idCurso);
-            setCursosRn(cursosRn);
-            return;
+        const index = cursosRn.indexOf(idCurso); // Busca el índice del valor en el array
+        let arr = cursosRn;
+        if (index === -1) {
+            arr.push(idCurso);
+        } else {
+            arr.splice(index, 1);
         }
-        setCursosRn(nuevoArray);
+        setCursosRn(arr);
     }
 
     function handleCursosMatricula(idCurso) {
-        const nuevoArray = cursosMatricula.filter((elemento) => elemento !== idCurso);
-        if (nuevoArray.length == cursosMatricula.length) {
-            cursosMatricula.push(idCurso);
-            setCursosMatricula(cursosMatricula);
-            return;
+        const index = cursosMatricula.indexOf(idCurso); // Busca el índice del valor en el array
+        let arr = cursosMatricula;
+        if (index === -1) {
+            arr.push(idCurso);
+        } else {
+            arr.splice(index, 1);
         }
-        setCursosMatricula(nuevoArray);
+        setCursosMatricula(arr);
     }
 
     function insertRequest() {
         let cursosMXRNString = "";
         let cursosRNSrign = "";
-        for (const item of cursosMatricula) {
-            cursosMXRNString += item.toString();
+        for (let i = 0; i < cursosMatricula.length; i++) {
+            cursosMXRNString += cursosMatricula[i].toString();
 
-            if (item === cursosMatricula[cursosMatricula.length - 1]) {
+            if (i + 1 == cursosMatricula.length) {
                 break;
             }
+
             cursosMXRNString += ",";
         }
 
-        for (const item of cursosRn) {
-            cursosRNSrign += item.toString();
+        for (let i = 0; i < cursosRn.length; i++) {
+            cursosRNSrign += cursosRn[i].toString();
 
-            if (item === cursosRn[cursosMatricula.length - 1]) {
+            if (i + 1 == cursosRn.length) {
                 break;
             }
+
             cursosRNSrign += ",";
         }
         const data = {
@@ -106,7 +120,18 @@ export default function RNForm() {
         if (!validateForm()) {
             confirmAlert({
                 title: 'Error',
-                message: 'Llene todos los campos necesarios.',
+                message: 'Llene todos los campos necesarios y asegúrese de no ingresar valores negativos.',
+                buttons: [
+                    {
+                        label: 'Continuar'
+                    },
+                ]
+            });
+        }
+        else if (!validateCursos()) {
+            confirmAlert({
+                title: 'Error',
+                message: 'La lista de cursos de matrícula no puede contener cursos de la lista de cursos RN',
                 buttons: [
                     {
                         label: 'Continuar'
@@ -151,8 +176,12 @@ export default function RNForm() {
 
                     {cursos.map((curso) => (
                         <>
-                            <label>{curso.codigo + " - " + curso.nombre}</label>
-                            <input onChange={() => (handleCursosRn(curso.idCurso))} key={curso.idCurso} type='checkbox' ></input><br />
+                            {
+                                <>
+                                    <label>{curso.codigo + " - " + curso.nombre}</label>
+                                    <input onChange={() => (handleCursosRn(curso.idCurso))} key={curso.idCurso} type='checkbox'></input><br />
+                                </>
+                            }
                         </>
                     ))}
                 </div>
@@ -166,19 +195,23 @@ export default function RNForm() {
                 name="rn"
                 id="rn"
                 required
+                min="0"
                 onChange={event => setRn(event.target.value)}
             /><br />
 
             <label htmlFor="">Seleccione el o los cursos que desea matricular pero su RN le impide:</label><br />
-            {/* TO DO: fill with db values */}
             {
                 cursos.length > 0 &&
                 <div className="listacheckbox">
 
                     {cursos.map((curso) => (
                         <>
-                            <label>{curso.codigo + " - " + curso.nombre}</label>
-                            <input onChange={() => (handleCursosMatricula(curso.idCurso))} key={curso.idCurso} type='checkbox'></input><br />
+                            {
+                                <>
+                                    <label>{curso.codigo + " - " + curso.nombre}</label>
+                                    <input onChange={() => (handleCursosMatricula(curso.idCurso))} key={curso.idCurso} type='checkbox'></input><br />
+                                </>
+                            }
                         </>
                     ))}
                 </div>

@@ -2,10 +2,87 @@
 import { useState } from "react";
 import { Config } from '../../config';
 import ConfirmModal from "../components/ConfirmModal";
+import ConfirmModalError from "./ConfirmationModalError";
 import { setGlobalState, useGlobalState } from "../state/FormState";
 export default function RNTable({ data }) {
   const [comentario, setComentario] = useState("");
   const [openConfirmationModal] = useGlobalState('openConfirmationModal');
+  const [openConfirmationModalError] = useGlobalState('openConfirmationModalError');
+  const [cursosMostrar, setCursosMostrar] = useState('');
+
+  function verCursosRN(id) {
+    const data = {
+      'id': id
+    }
+
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    };
+
+    fetch(Config.api_url + 'ObtenerCursosXSolicitudRN', requestOptions)
+      .then(async (response) => {
+        if (!response.ok) {
+          return 'No se pudo realizar el request';
+        }
+        else {
+          return await response.json();
+        }
+      })
+      .then((cursos) => {
+        let cursosStr = '';
+        for (let i = 0; i < cursos.length; i++) {
+          if(i+1 == cursos.length){
+            cursosStr += cursos[i].codigo + " " + cursos[i].nombre;
+            break;
+          }
+          cursosStr += cursos[i].codigo + " " + cursos[i].nombre + ", "
+        }
+        setCursosMostrar(cursosStr);
+        setGlobalState('openConfirmationModalError', true);
+      })
+  }
+
+  function verCursosMatricular(id) {
+    const data = {
+      'id': id
+    }
+
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    };
+
+    fetch(Config.api_url + 'ObtenerCursosMXSolicitudRN', requestOptions)
+      .then(async (response) => {
+        if (!response.ok) {
+          return 'No se pudo realizar el request';
+        }
+        else {
+          return await response.json();
+        }
+      })
+      .then((cursos) => {
+        console.log(cursos);
+        let cursosStr = '';
+        for (let i = 0; i < cursos.length; i++) {
+          if(i+1 == cursos.length){
+            cursosStr += cursos[i].codigo_curso + " " + cursos[i].nombre_curso;
+            break;
+          }
+          cursosStr += cursos[i].codigo_curso + " " + cursos[i].nombre_curso + ", ";
+        }
+        setCursosMostrar(cursosStr);
+        setGlobalState('openConfirmationModalError', true);
+      })
+  }
+
 
   function aprobar(id) {
     const data = {
@@ -77,6 +154,14 @@ export default function RNTable({ data }) {
           label="Solicitud modificada con éxito y lista para enviar su resultado al estudiante.">
         </ConfirmModal>
       }
+      {
+        openConfirmationModalError &&
+        <ConfirmModalError
+          title="Cursos"
+          label={cursosMostrar}
+        >
+        </ConfirmModalError>
+      }
       <table>
         <thead>
           <tr>
@@ -88,6 +173,7 @@ export default function RNTable({ data }) {
             <th>RN del curso</th>
             <th>Cursos a matricular</th>
             <th>Comentarios</th>
+            <th>Estado actual</th>
             <th>Agregar observaciones</th>
             <th>Aprobar</th>
             <th>Rechazar</th>
@@ -100,11 +186,12 @@ export default function RNTable({ data }) {
               <td>{item.nombreCompleto}</td>
               <td>{item.nombreSede}</td>
               <td>{item.nombrePlanEstudios}</td>
-              <td>tbd</td>
+              <td><button onClick={() => {verCursosRN(item.fkSolicitud)}}>Ver</button></td>
               <td>{item.nivelRN}</td>
-              <td>tbd</td>
+              <td><button onClick={() => {verCursosMatricular(item.fkSolicitud)}}>Ver</button></td>
               <td>{item.razon}</td>
-              <td><input type="text" value={comentario} onChange={event => setComentario(event.target.value)} /></td>
+              <td>{item.estadoTexto}</td>
+              <td><p>{item.comentarioEncargado}</p><input type="text" onChange={event => setComentario(event.target.value)} /></td>
               <td><button onClick={() => { aprobar(item.fkSolicitud) }}>Aprobar</button></td>
               <td><button onClick={() => { rechazar(item.fkSolicitud) }}>Rechazar</button></td>
             </tr>

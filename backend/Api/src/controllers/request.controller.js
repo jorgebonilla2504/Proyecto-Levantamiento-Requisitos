@@ -325,7 +325,7 @@ export const ObtenerCursosXSolicitudRN = async (req, res) => {
     const connection = await getConnection();
     const [rows] = await connection.execute(
       'CALL ObtenerCursosXsolicitudRNDeSolicitudId(?)',
-      [idSolicitud]
+      [id]
     );
     connection.release();
     connection.destroy();
@@ -342,7 +342,7 @@ export const ObtenerCursosMXSolicitudRN = async (req, res) => {
     const connection = await getConnection();
     const [rows] = await connection.execute(
       'CALL ObtenerCursosMXsolicitudRNDeSolicitudId(?)',
-      [idSolicitud]
+      [id]
     );
     connection.release();
     connection.destroy();
