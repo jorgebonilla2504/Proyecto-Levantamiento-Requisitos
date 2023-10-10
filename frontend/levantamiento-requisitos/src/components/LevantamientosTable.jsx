@@ -1,11 +1,19 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState } from "react";
 import { Config } from '../../config';
 import ConfirmModal from "../components/ConfirmModal";
 import { setGlobalState, useGlobalState } from "../state/FormState";
+import { useEffect } from "react";
 /* eslint-disable react/prop-types */
-export default function LevantamientosTable({ data }) {
+export default function LevantamientosTable(props) {
   const [comentario, setComentario] = useState("");
   const [openConfirmationModal] = useGlobalState('openConfirmationModal');
+  const [tableData, setTableData] = useState([{}]);
+
+  useEffect(() => {
+    updateData();
+  }, []);
+
   function aprobar(id) {
     const data = {
       'idSolicitud': id,
@@ -31,9 +39,38 @@ export default function LevantamientosTable({ data }) {
         }
       })
       .then((response) => {
-        if(response){
+        if (response) {
           setGlobalState('openConfirmationModal', true);
+          updateData();
         }
+      })
+  }
+
+  function updateData() {
+    const data = {
+      'id': props.id
+    }
+
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    };
+
+    fetch(Config.api_url + 'GetRequestsNormal', requestOptions)
+      .then(async (response) => {
+        if (!response.ok) {
+          return 'No se pudo realizar el request';
+        }
+        else {
+          return await response.json();
+        }
+      })
+      .then((solicitudes) => {
+        console.log(solicitudes);
+        setTableData(solicitudes);
       })
   }
 
@@ -62,8 +99,9 @@ export default function LevantamientosTable({ data }) {
         }
       })
       .then((response) => {
-        if(response){
+        if (response) {
           setGlobalState('openConfirmationModal', true);
+          updateData();
         }
       })
   }
@@ -96,7 +134,7 @@ export default function LevantamientosTable({ data }) {
           </tr>
         </thead>
         <tbody>
-          {data.map((item, index) => (
+          {tableData.map((item, index) => (
             <tr key={index}>
               <td>{item.carnet}</td>
               <td>{item.nombreCompleto}</td>

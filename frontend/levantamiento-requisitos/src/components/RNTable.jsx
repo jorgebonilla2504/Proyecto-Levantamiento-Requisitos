@@ -1,14 +1,48 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 import { Config } from '../../config';
 import ConfirmModal from "../components/ConfirmModal";
 import ConfirmModalError from "./ConfirmationModalError";
 import { setGlobalState, useGlobalState } from "../state/FormState";
-export default function RNTable({ data }) {
+import { useEffect } from "react";
+export default function RNTable(props) {
   const [comentario, setComentario] = useState("");
   const [openConfirmationModal] = useGlobalState('openConfirmationModal');
   const [openConfirmationModalError] = useGlobalState('openConfirmationModalError');
   const [cursosMostrar, setCursosMostrar] = useState('');
+  const [tableData, setTableData] = useState([{}]);
+
+  useEffect(() => {
+    updateData();
+  }, []);
+
+  function updateData() {
+    const data = {
+      'id': props.id
+    }
+
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    };
+
+    fetch(Config.api_url + 'GetRequestsRN', requestOptions)
+      .then(async (response) => {
+        if (!response.ok) {
+          return 'No se pudo realizar el request';
+        }
+        else {
+          return await response.json();
+        }
+      })
+      .then((solicitudes) => {
+        setTableData(solicitudes);
+      })
+  }
 
   function verCursosRN(id) {
     const data = {
@@ -110,6 +144,7 @@ export default function RNTable({ data }) {
       .then((response) => {
         if (response) {
           setGlobalState('openConfirmationModal', true);
+          updateData();
         }
       })
   }
@@ -141,6 +176,7 @@ export default function RNTable({ data }) {
       .then((response) => {
         if (response) {
           setGlobalState('openConfirmationModal', true);
+          updateData();
         }
       })
   }
@@ -179,7 +215,7 @@ export default function RNTable({ data }) {
           </tr>
         </thead>
         <tbody>
-          {data.map((item, index) => (
+          {tableData.map((item, index) => (
             <tr key={index}>
               <td>{item.carnet}</td>
               <td>{item.nombreCompleto}</td>

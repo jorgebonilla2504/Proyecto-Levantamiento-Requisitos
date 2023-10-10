@@ -1,7 +1,6 @@
 import { useParams } from 'react-router-dom';
 import AdminHeader from '../../components/AdminHeader';
-import { useEffect, useState } from 'react';
-import { Config } from '../../../config';
+import { useState } from 'react';
 import LevantamientosTable from '../../components/LevantamientosTable';
 import RNTable from '../../components/RNTable';
 import { setGlobalState } from '../../state/FormState';
@@ -12,11 +11,6 @@ function FormResults() {
     const [tipo, setTipo] = useState(1);
     const [levChecked, setLevChecked] = useState(1);
     const [rnChecked, setRnChecked] = useState(0);
-    const [rnResults, setRnResults] = useState([]);
-    const [levResults, setLevResults] = useState([]);
-    useEffect(() => {
-        updateData();
-    }, []);
 
     function toAdminForm() {
         setGlobalState('isLoggedIn', true);
@@ -36,46 +30,6 @@ function FormResults() {
         }
     }
 
-    function updateData() {
-        const data = {
-            'id': id
-        }
-
-        const requestOptions = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        };
-
-        fetch(Config.api_url + 'GetRequestsNormal', requestOptions)
-            .then(async (response) => {
-                if (!response.ok) {
-                    return 'No se pudo realizar el request';
-                }
-                else {
-                    return await response.json();
-                }
-            })
-            .then((solicitudes) => {
-                setLevResults(solicitudes);
-            })
-
-        fetch(Config.api_url + 'GetRequestsRN', requestOptions)
-            .then(async (response) => {
-                if (!response.ok) {
-                    return 'No se pudo realizar el request';
-                }
-                else {
-                    return await response.json();
-                }
-            })
-            .then((solicitudes) => {
-                setRnResults(solicitudes);
-            })
-    }
-
     return (
         <>
             <AdminHeader></AdminHeader>
@@ -86,12 +40,11 @@ function FormResults() {
                 <label htmlFor="">Condición RN</label>
                 <input className='checkbox' checked={rnChecked} onChange={handleChecked} type="checkbox" /><br />
                 <div className='modalbuttons'>
-                    <button className='button' onClick={() => { updateData() }}>Actualizar resultados</button>
                     <button className='button' onClick={() => { toAdminForm() }}>Nueva solicitud</button>
                 </div>
             </div>
-            {tipo == 1 && <LevantamientosTable data={levResults}></LevantamientosTable>}
-            {tipo == 2 && <RNTable data={rnResults} ></RNTable>}
+            {tipo == 1 && <LevantamientosTable id={id}></LevantamientosTable>}
+            {tipo == 2 && <RNTable id={id} ></RNTable>}
         </>
     );
 }
