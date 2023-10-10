@@ -69,7 +69,6 @@ export default function RNTable({ data }) {
         }
       })
       .then((cursos) => {
-        console.log(cursos);
         let cursosStr = '';
         for (let i = 0; i < cursos.length; i++) {
           if(i+1 == cursos.length){

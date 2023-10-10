@@ -12,6 +12,23 @@ function FormResults() {
     const [rnResults, setRnResults] = useState([]);
     const [levResults, setLevResults] = useState([]);
     useEffect(() => {
+        updateData();
+    }, []);
+
+    function handleChecked() {
+        if (levChecked) {
+            setLevChecked(0);
+            setRnChecked(1);
+            setTipo(2);
+        }
+        else {
+            setLevChecked(1);
+            setRnChecked(0);
+            setTipo(1);
+        }
+    }
+
+    function updateData() {
         const data = {
             'id': id
         }
@@ -49,19 +66,6 @@ function FormResults() {
             .then((solicitudes) => {
                 setRnResults(solicitudes);
             })
-    }, []);
-
-    function handleChecked() {
-        if (levChecked) {
-            setLevChecked(0);
-            setRnChecked(1);
-            setTipo(2);
-        }
-        else {
-            setLevChecked(1);
-            setRnChecked(0);
-            setTipo(1);
-        }
     }
 
     return (
@@ -72,7 +76,8 @@ function FormResults() {
                 <label htmlFor="">Levantamiento de requisitos</label>
                 <input className='checkbox' checked={levChecked} onChange={handleChecked} type="checkbox" />
                 <label htmlFor="">Condición RN</label>
-                <input className='checkbox' checked={rnChecked} onChange={handleChecked} type="checkbox" />
+                <input className='checkbox' checked={rnChecked} onChange={handleChecked} type="checkbox" /><br />
+                <button className='button' onClick={() => {updateData()}}>Actualizar resultados</button>
             </div>
             {tipo == 1 && <LevantamientosTable data={levResults}></LevantamientosTable>}
             {tipo == 2 && <RNTable data={rnResults} ></RNTable>}

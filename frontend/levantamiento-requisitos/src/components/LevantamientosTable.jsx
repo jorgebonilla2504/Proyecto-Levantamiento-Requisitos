@@ -4,7 +4,6 @@ import ConfirmModal from "../components/ConfirmModal";
 import { setGlobalState, useGlobalState } from "../state/FormState";
 /* eslint-disable react/prop-types */
 export default function LevantamientosTable({ data }) {
-  console.log(data);
   const [comentario, setComentario] = useState("");
   const [openConfirmationModal] = useGlobalState('openConfirmationModal');
   function aprobar(id) {
