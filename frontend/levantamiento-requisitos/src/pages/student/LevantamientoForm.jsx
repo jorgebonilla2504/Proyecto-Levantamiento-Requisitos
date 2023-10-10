@@ -54,7 +54,7 @@ export default function LevantamientoForm() {
     }, []);
 
     function validateForm() {
-        if (cursomatricular != '' && cursolevantar != '' && comentario != '', motivo != '') {
+        if (cursomatricular != '' && cursolevantar != '' && comentario != '') {
             return true;
         }
         return false;
@@ -68,6 +68,17 @@ export default function LevantamientoForm() {
             confirmAlert({
                 title: 'Error',
                 message: 'Llene todos los campos necesarios.',
+                buttons: [
+                    {
+                        label: 'Continuar'
+                    },
+                ]
+            });
+        }
+        else if (cursolevantar == cursomatricular){
+            confirmAlert({
+                title: 'Error',
+                message: 'El curso a matricular y a levantar deben ser distintos.',
                 buttons: [
                     {
                         label: 'Continuar'
