@@ -81,7 +81,6 @@ export const InsertRequest = async (req, res) => {
         'Solicitud de levantamiento',
         'Se ha solicitado un levantamiento, su token es: ' +
           token +
-          '.' +
           '\n' +
           'Para el curso' +
           idCursoLevanta +
