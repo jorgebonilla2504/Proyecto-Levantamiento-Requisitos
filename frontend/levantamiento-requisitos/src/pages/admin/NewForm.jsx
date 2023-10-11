@@ -62,7 +62,7 @@ export default function NewForm() {
                     </ConfirmModalError>
                 }
                 <div className='form'>
-                    <h1>Nuevo Administrador</h1>
+                    <h1>Nuevo Formulario</h1>
                     <form onSubmit={postForm}>
                         <label htmlFor="fecha">Fecha de vencimiento:</label>
                         <br />
