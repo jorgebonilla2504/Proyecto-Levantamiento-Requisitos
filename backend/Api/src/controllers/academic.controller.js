@@ -1,4 +1,3 @@
-import e from 'express';
 import { getConnection } from '../ConnectionBD'; //import for connection
 
 // getPlandeEstudios function to get the study plan
@@ -93,6 +92,7 @@ export const insertarPlanEstudios = async (req, res) => {
   }
 };
 
+//
 export const ReadPeriodos = async (req, res) => {
   try {
     const connection = await getConnection();
