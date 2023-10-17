@@ -14,7 +14,7 @@ import {
   ObtenerSolicitudesRNPorId,
   ObtenerCursosMXSolicitudRN,
   ObtenerCursosXSolicitudRN,
-  prueba,
+  SendResultRequest,
 } from '../controllers/request.controller';
 
 const router = Router();
@@ -31,6 +31,6 @@ router.post('/GetRequestsRN', GetRequestsRN);
 router.post('/ObtenerSolicitudesRNPorId', ObtenerSolicitudesRNPorId);
 router.post('/ObtenerCursosMXSolicitudRN', ObtenerCursosMXSolicitudRN);
 router.post('/ObtenerCursosXSolicitudRN', ObtenerCursosXSolicitudRN);
-router.get('/prueba', prueba);
+router.get('/SendEmail', SendResultRequest);
 
 export default router;

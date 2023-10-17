@@ -49,8 +49,6 @@ const sendEmail = (Student, email, subject, text) => {
     if (error) {
       console.log(error);
       console.error('Error al enviar correo');
-    } else {
-      console.log('Correo enviado correctamente');
     }
   });
 };
