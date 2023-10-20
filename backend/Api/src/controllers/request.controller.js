@@ -391,6 +391,62 @@ const GetCursosForDocumentacion = async (req, res, id) => {
 
 // ------------------------------------- GETS  STATE REQUEST  -------------------------------------
 
+const GetUserRN = async (req, res, carnet) => {
+  try {
+    const connection = await getConnection();
+    const [row] = await connection.execute('CALL ObtenerSolicitudRNCarnet(?)', [
+      carnet,
+    ]);
+    connection.release();
+    connection.destroy();
+    const request = row[0];
+    //add name of the courses in list request
+    for (let i = 0; i < request.length; i++) {
+      const element = request[i];
+      const cursos = await GetCursosForDocumentacion(
+        req,
+        res,
+        element.fkSolicitud
+      );
+      request[i].cursos = cursos;
+    }
+    return request;
+  } catch (error) {
+    console.error('Error al obtener solicitudes carnet RN');
+  }
+};
+
+const GetUser = async (req, res, carnet) => {
+  try {
+    const connection = await getConnection();
+    const [row] = await connection.execute(
+      'CALL ObtenerSolicitudReqCarnet(?)',
+      [carnet]
+    );
+    connection.release();
+    connection.destroy();
+    const request = row[0];
+    return request;
+  } catch (error) {
+    console.error('Error al obtener solicitudes carnet RN');
+  }
+};
+
+export const GetHistoryUser = async (req, res) => {
+  try {
+    let History = [];
+    const carnet = 2020077101;
+    const UserRN = await GetUserRN(req, res, carnet);
+    const User = await GetUser(req, res, carnet);
+    History.push(UserRN);
+    History.push(User);
+    res.json(History);
+  } catch (error) {
+    console.error('Error al obtener solicitudes carnet RN');
+    res.status(500).json({ error: 'Error al obtener solicitudes' });
+  }
+};
+
 //getStateRequest function to get the state of the requests
 // Gets the state of the requests
 // Returns the state of the requests
