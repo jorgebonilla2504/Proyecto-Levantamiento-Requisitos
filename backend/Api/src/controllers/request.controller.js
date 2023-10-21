@@ -1,5 +1,5 @@
 import { getConnection } from '../ConnectionBD'; //import for connection
-import { sendEmail } from '../emailer'; //import for send email
+import { sendEmail, sendEmailDocs } from '../emailer'; //import for send email
 import { generateUniqueToken } from '../token'; //import for generate token
 import { modificarArchivoCSV } from '../docsGenerator'; //import for generate document
 
@@ -90,10 +90,12 @@ const InformationRequestDownload = (requestNormal, requestRN) => {
 
 export const GetInforme = async (req, res) => {
   try {
+    const { email } = req.body;
     const Request = await getStateRequest(req, res);
     const RequestRN = await getStateRequestRNDocuments(req, res);
     const Data = InformationRequestDownload(Request, RequestRN);
-    modificarArchivoCSV('src\\DOCS\\InformeRequerimientos.csv', Data);
+    await modificarArchivoCSV('src\\DOCS\\InformeRequerimientos.csv', Data);
+    sendEmailDocs(email);
     res.json({ mensaje: 'Correo Enviado' });
   } catch (error) {
     console.error('Error al obtener solicitudes');
@@ -160,15 +162,20 @@ const InformationRequestRN = (request) => {
 // Returns the requests
 export const GenerarInforme = async (req, res) => {
   try {
+    const email = await GetEmails();
+    console.log(email);
     const Request = await getStateRequest(req, res);
     const Data = InformationRequest(Request);
-    modificarArchivoCSV('src\\DOCS\\levantamientoRequisitos.csv', Data);
+    await modificarArchivoCSV('src\\DOCS\\levantamientoRequisitos.csv', Data);
     const RequestRn = await getStateRequestRNDocuments(req, res);
     const DataRn = InformationRequestRN(RequestRn);
-    modificarArchivoCSV('src\\DOCS\\condicionRN.csv', DataRn);
+    await modificarArchivoCSV('src\\DOCS\\condicionRN.csv', DataRn);
+    sendEmailDocs(email[0]);
+    sendEmailDocs(email[1]);
+    res.json({ mensaje: 'Correo Enviado' });
   } catch (error) {
-    console.error('Error al obtener solicitudes');
-    res.status(500).json({ error: 'Error al obtener solicitudes' });
+    console.error('Error al Generar informe');
+    res.status(500).json({ error: 'Error al  Generar informe' });
   }
 };
 
@@ -390,6 +397,25 @@ const GetCursosForDocumentacion = async (req, res, id) => {
 };
 
 // ------------------------------------- GETS  STATE REQUEST  -------------------------------------
+
+const GetEmails = async () => {
+  let emails = [];
+
+  try {
+    const conn = await getConnection();
+    const [rows] = await conn.execute('CALL GetEmails()');
+    for (let i = 1; i < rows[0].length; i++) {
+      const element = rows[0][i];
+      emails.push(element.email);
+    }
+    conn.release();
+    conn.destroy();
+    return emails;
+  } catch (error) {
+    console.error('Error al obtener solicitudes');
+    res.status(500).json({ error: 'Error al obtener solicitudes' });
+  }
+};
 
 const GetUserRN = async (req, res, carnet) => {
   try {

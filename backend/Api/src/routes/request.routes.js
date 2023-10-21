@@ -30,7 +30,7 @@ router.post('/GetRequests', GetRequestsNormal);
 router.post('/GetRequestsRN', GetRequestsRN);
 router.post('/ObtenerSolicitudesRNPorId', ObtenerSolicitudesRNPorId);
 router.post('/DownloadInformation', GetInforme);
-router.post('/InformationDar', GenerarInforme);
-router.get('/GetUserHistory', GetHistoryUser);
+router.get('/InformationDar', GenerarInforme);
+router.post('/GetUserHistory', GetHistoryUser);
 
 export default router;

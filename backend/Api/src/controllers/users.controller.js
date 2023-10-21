@@ -40,7 +40,7 @@ export const InsertarAdministrador = async (req, res) => {
     const connection = await getConnection();
     const [rows] = await connection.execute(
       'CALL InsertarAdministrador(?, ?, ?)',
-      [nombre, email, clave]
+      [nombre, clave, email]
     );
 
     // El administrador se insertó correctamente
