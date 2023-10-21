@@ -15,11 +15,16 @@ import {
   GetHistoryUser,
   GetInforme,
   GenerarInforme,
+  SendResultRequest,
+  ObtenerCursosMXSolicitudRN,
+  ObtenerCursosXSolicitudRN,
 } from '../controllers/request.controller';
 
 const router = Router();
 
 router.get('/GetRequests', GetRequests);
+router.get('/InformationDar', GenerarInforme);
+router.get('/SendResultRequest', SendResultRequest);
 router.post('/InsertRequest', InsertRequest);
 router.post('/InsertRequestRn', InsertRequestRN);
 router.post('/DeleteRequest', DeleteRequest);
@@ -30,7 +35,8 @@ router.post('/GetRequests', GetRequestsNormal);
 router.post('/GetRequestsRN', GetRequestsRN);
 router.post('/ObtenerSolicitudesRNPorId', ObtenerSolicitudesRNPorId);
 router.post('/DownloadInformation', GetInforme);
-router.get('/InformationDar', GenerarInforme);
 router.post('/GetUserHistory', GetHistoryUser);
+router.post('/ObtenerCursosMXSolicitudRN', ObtenerCursosMXSolicitudRN);
+router.post('/ObtenerCursosXSolicitudRN', ObtenerCursosXSolicitudRN);
 
 export default router;

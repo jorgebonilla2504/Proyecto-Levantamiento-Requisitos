@@ -201,7 +201,8 @@ const sendEmailRequest = async (req, res, request) => {
     <ul>
     <li> ${element.nombreCursoLevantar}</li>
     </ul>
-    <p> para la solicitud de  matricular el siguiente curso <b>${element.nombreCursoMatricular}</b> .</p>
+    <p> El motivo de la decision fue: ${element.ComentarioEncargado}  .</p>
+
 
     `;
 
@@ -213,6 +214,7 @@ const sendEmailRequest = async (req, res, request) => {
         htmlContent
       );
     }
+
     conn.release();
     conn.destroy();
   } catch (error) {
@@ -231,9 +233,6 @@ const sendEmailRequestRN = async (req, res, request) => {
         element.idSolicitud,
       ]);
 
-      const cursosMatricular = element.cursos[1]
-        .map((nombre_curso) => `<li> ${nombre_curso}</li>`)
-        .join('');
       const cursosLevantar = element.cursos[0]
         .map((nombre) => `<li> ${nombre}</li>`)
         .join('');
@@ -244,15 +243,11 @@ const sendEmailRequestRN = async (req, res, request) => {
       <ul>
       ${cursosLevantar}
       </ul>
-      <p> para poder matricular los siguientes cursos: </b> .</p>
-      <ul>
-      ${cursosMatricular}
-      </ul>
-
-      
+      <p> El motivo de la decision fue: ${element.ComentarioEncargado}  .</p>
       `;
 
       // La solicitud se insertó correctamente
+
       sendEmail(
         element.nombreCompleto,
         element.email,
@@ -910,25 +905,6 @@ export const ObtenerSolicitudesRNPorId = async (req, res) => {
     console.error('Error al obtener solicitudes');
     res.status(500).json({ error: 'Error al obtener solicitudes' });
   }
-};
-
-export const prueba = async (req, res) => {
-  const cursos = ['A', 'B', 'C'];
-  const listaCursosHTML = cursos.map((curso) => `<li> ${curso}</li>`).join(''); //lista de cursos en html
-  const htmlContent = `
-      <p>Que se ha generado una solicitud de levantamiento,para la cual, su token es: 1111111  </p>
-      <p>Se ha solicitado un levantamiento en los siguientes cursos: </p>
-      <ul>
-      ${listaCursosHTML}
-      </ul>
-      `;
-  sendEmail(
-    'Luis Rivel',
-    'ljrivel@gmail.com',
-    'Solicitud de levantamiento',
-    htmlContent
-  );
-  res.json({ mensaje: 'Solicitud insertada correctamente' });
 };
 
 export const ObtenerCursosXSolicitudRN = async (req, res) => {
