@@ -11,7 +11,8 @@ const {setGlobalState, useGlobalState} = createGlobalState({
     openInputModal: false,
     openConfirmationModalError: false,
     openConfirmationModal: false,
-    isLoggedIn: false
+    isLoggedIn: false,
+    loggedEmail: '',
 });
 
 export {setGlobalState, useGlobalState};

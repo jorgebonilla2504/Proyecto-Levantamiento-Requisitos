@@ -31,6 +31,7 @@ export default function Login() {
                 }
                 else{
                     setGlobalState("isLoggedIn", true);
+                    setGlobalState("loggedEmail", email)
                     navigate('/home');
                 }
             })

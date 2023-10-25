@@ -3,18 +3,83 @@ import AdminHeader from '../../components/AdminHeader';
 import { useState } from 'react';
 import LevantamientosTable from '../../components/LevantamientosTable';
 import RNTable from '../../components/RNTable';
-import { setGlobalState } from '../../state/FormState';
+import { setGlobalState, useGlobalState } from '../../state/FormState';
 import { useNavigate } from "react-router-dom";
+import { Config } from '../../../config';
+import ConfirmModalError from '../../components/ConfirmationModalError';
+
 function FormResults() {
     const navigate = useNavigate();
     const { id } = useParams();
+    const userEmail = useGlobalState("loggedEmail");
     const [tipo, setTipo] = useState(1);
     const [levChecked, setLevChecked] = useState(1);
     const [rnChecked, setRnChecked] = useState(0);
-
+    const [openConfirmationModalError] = useGlobalState('openConfirmationModalError');
+    const downloadSuccessMsg = "Se ha generado el archivo CSV para la descarga, ingrese a su correo para descargar los resultados.";
+    const darSuccessMsg = "Se ha generado el reporte DAR de manera correcta y ha sido enviado mediante un correo." 
+    let actMsg = downloadSuccessMsg;
+    let actTitle = "Éxito";
     function toAdminForm() {
         setGlobalState('isLoggedIn', true);
         navigate('/adminform/' + id);
+    }
+
+    function downloadResults() {
+        const data = {
+            'email': userEmail[0],
+            'idFormulario': id
+        }
+
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        };
+
+        fetch(Config.api_url + 'DownloadInformation', requestOptions)
+            .then((response) => {
+                if(!response.ok){
+                    actTitle = "Error";
+                    actMsg = "Ocurrió un error al generar el reporte, por favor intente de nuevo."
+                    setGlobalState('openConfirmationModalError', true);
+                }
+                else{
+                    actTitle = "Éxito";
+                    actMsg = downloadSuccessMsg;
+                    setGlobalState("openConfirmationModalError", true);
+                }
+            })
+    }
+
+    function generateDar() {
+        const data = {
+            'idFormulario': id
+        }
+
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        };
+
+        fetch(Config.api_url + 'InformationDar', requestOptions)
+            .then((response) => {
+                if(!response.ok){
+                    actTitle = "Error";
+                    actMsg = "Ocurrió un error al generar el reporte, por favor intente de nuevo."
+                    setGlobalState('openConfirmationModalError', true);
+                }
+                else{
+                    actTitle = "Éxito";
+                    actMsg = darSuccessMsg;
+                    setGlobalState("openConfirmationModalError", true);
+                }
+            })
     }
 
     function handleChecked() {
@@ -33,6 +98,13 @@ function FormResults() {
     return (
         <>
             <AdminHeader></AdminHeader>
+                {
+                    openConfirmationModalError &&
+                    <ConfirmModalError
+                        title={actTitle}
+                        label={actMsg}>
+                    </ConfirmModalError>
+                }
             <div className='main-container'>
                 <h2>Mostrar resultados de: </h2>
                 <label htmlFor="">Levantamiento de requisitos</label>
@@ -41,6 +113,8 @@ function FormResults() {
                 <input className='checkbox' checked={rnChecked} onChange={handleChecked} type="checkbox" /><br />
                 <div className='modalbuttons'>
                     <button className='button' onClick={() => { toAdminForm() }}>Nueva solicitud</button>
+                    <button className='button' onClick={() => { downloadResults() }}>Descargar resultados</button>
+                    <button className='button' onClick={() => { generateDar() }}>Generar reporte DAR</button>
                 </div>
             </div>
             {tipo == 1 && <LevantamientosTable id={id}></LevantamientosTable>}
