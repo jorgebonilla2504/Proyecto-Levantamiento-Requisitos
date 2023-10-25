@@ -1,5 +1,5 @@
 import { getConnection } from '../ConnectionBD'; //import for connection
-import { sendEmail, sendEmailDocs } from '../emailer'; //import for send email
+import { sendEmail, sendEmailDocs, sendEmailDownloadsDocs } from '../emailer'; //import for send email
 import { generateUniqueToken } from '../token'; //import for generate token
 import { modificarArchivoCSV } from '../docsGenerator'; //import for generate document
 
@@ -99,7 +99,7 @@ export const GetInforme = async (req, res) => {
     );
     const Data = InformationRequestDownload(Request, RequestRN);
     await modificarArchivoCSV('src\\DOCS\\InformeRequerimientos.csv', Data);
-    sendEmailDocs(email);
+    sendEmailDownloadsDocs(email);
     res.json({ mensaje: 'Correo Enviado' });
   } catch (error) {
     console.error('Error al obtener solicitudes');
@@ -166,11 +166,12 @@ const InformationRequestRN = (request) => {
 // Returns the requests
 export const GenerarInforme = async (req, res) => {
   try {
-    const { idFormulario } = await GetEmails();
+    const { idFormulario } = req.body;
 
     const Request = await getStateRequestId(req, res, idFormulario);
     const Data = InformationRequest(Request);
     await modificarArchivoCSV('src\\DOCS\\levantamientoRequisitos.csv', Data);
+
     const RequestRn = await getStateRequestRNDocumentsId(
       req,
       res,
@@ -178,6 +179,7 @@ export const GenerarInforme = async (req, res) => {
     );
     const DataRn = InformationRequestRN(RequestRn);
     await modificarArchivoCSV('src\\DOCS\\condicionRN.csv', DataRn);
+
     //sendEmailDocs('eshuman@itcr.ac.cr');
     //sendEmailDocs('bdittel@itcr.ac.cr');
     sendEmailDocs('ljrivel16@gmail.com'); //email de prueba
@@ -514,6 +516,7 @@ const getStateRequestId = async (req, res, id) => {
     conn.release();
     conn.destroy();
   } catch (error) {
+    console.log(error);
     console.error('Error al obtener solicitudes');
     res.status(500).json({ error: 'Error al obtener solicitudes' });
   }

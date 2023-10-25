@@ -111,5 +111,54 @@ export const sendEmailDocs = (email) => {
   });
 };
 
+export const sendEmailDownloadsDocs = (email) => {
+  // This is for read the img
+  const Attachments = [
+    {
+      filename: 'Head.png',
+      path: `src\\IMG\\Header.png`,
+      cid: 'Head',
+    },
+    {
+      filename: 'Footer.png',
+      path: `src\\IMG\\Footer.png`,
+      cid: 'Footer',
+    },
+  ];
+
+  const htmlContent = `
+    <img src="cid:Head" alt="Head" />
+     <h1> Estimado administrador, se le informa: </h1>
+     <h1> </h1>
+      <h3>Se adjuntan los documentos solicitados. </h3>
+    <img src="cid:Footer" alt="Footer" />
+  `;
+
+  if ('src\\DOCS\\InformeRequerimientos.csv') {
+    Attachments.push({
+      filename: 'InformeRequerimientos.csv',
+      path: 'src\\DOCS\\InformeRequerimientos.csv',
+    });
+  }
+
+  // After that if use to send the email
+
+  const transporter = createTransporter();
+  const mailOptions = {
+    from: 'LevantamientosITCR@gmail.com',
+    to: email,
+    subject: 'Informacion del formulario solicitado',
+    html: htmlContent,
+    attachments: Attachments,
+  };
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.error('Error al enviar correo');
+    } else {
+      console.log('Correo enviado correctamente');
+    }
+  });
+};
+
 exports.sendEmail = (Student, email, subject, text) =>
   sendEmail(Student, email, subject, text);
