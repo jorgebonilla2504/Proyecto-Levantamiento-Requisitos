@@ -58,7 +58,7 @@ export default function NewForm() {
                     openConfirmationModalError &&
                     <ConfirmModalError
                         title="Error"
-                        label="Token y/o carnet incorrectos.">
+                        label="Ocurrió un error al crear el formulario, intente de nuevo.">
                     </ConfirmModalError>
                 }
                 <div className='form'>

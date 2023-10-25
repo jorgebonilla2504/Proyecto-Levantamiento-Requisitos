@@ -456,7 +456,7 @@ const GetUser = async (req, res, carnet) => {
 export const GetHistoryUser = async (req, res) => {
   try {
     let History = [];
-    const carnet = 2020077101;
+    const carnet = req.body.carnet;
     const UserRN = await GetUserRN(req, res, carnet);
     const User = await GetUser(req, res, carnet);
     History.push(UserRN);

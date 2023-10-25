@@ -33,7 +33,7 @@ export default function AdminHomepage() {
         navigate('/form/' + id);
     }
 
-    function toNewForm(){
+    function toNewForm() {
         setGlobalState('isLoggedIn', true);
         navigate('/newform');
     }
@@ -45,14 +45,16 @@ export default function AdminHomepage() {
                 <AdminHeader></AdminHeader>
                 <div className='main-container'>
                     <h1>Formularios</h1>
-                    <ul>
+                    <div className='cardContainer'>
                         {forms.map((form) => (
                             <>
-                                <li><a onClick={() => { toFormResults(form.FormularioID) }} href="#">{form.nombre}</a></li>
+                                <div className='card'
+                                    onClick={() => { toFormResults(form.FormularioID) }}>
+                                    <h3>{form.nombre}</h3>
+                                </div>
                             </>
                         ))}
-                    </ul>
-
+                    </div>
                     <a onClick={() => { toNewForm() }} href="#">Crear nuevo formulario</a>
                 </div>
                 {

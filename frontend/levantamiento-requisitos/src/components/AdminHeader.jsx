@@ -16,6 +16,11 @@ export default function AdminHeader(){
         setGlobalState('isLoggedIn', true);
         navigate('/home');
     }
+
+    function toCarnetSearch(){
+        setGlobalState('isLoggedIn', true);
+        navigate('/carnetSearch');
+    }
     return <>
         <header>
             <div className="headerTitle">
@@ -23,7 +28,7 @@ export default function AdminHeader(){
             </div>
             <div className="headerLinks">
                 <a onClick={toHome} href='#'>Inicio</a>
-                <a href="#">Búsqueda por carnet</a>
+                <a onClick={toCarnetSearch} href="#">Búsqueda por carnet</a>
                 <a onClick={toNewAdmin} href="#">Nuevo Administrador</a>
                 <a onClick={close} href="#">Cerrar sesión</a>
             </div>

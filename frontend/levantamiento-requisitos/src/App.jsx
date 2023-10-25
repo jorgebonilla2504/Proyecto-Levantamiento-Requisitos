@@ -1,5 +1,6 @@
 import AdminForm from './pages/admin/AdminForm';
 import AdminHomepage from './pages/admin/AdminHomePage';
+import CarnetSearch from './pages/admin/CarnetSearch';
 import FormResults from './pages/admin/FormResults';
 import Login from './pages/admin/Login'
 import NewAdmin from './pages/admin/NewAdmin';
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
   {
     path: '/adminform/:id',
     element: <AdminForm/>
+  },
+  {
+    path: '/carnetSearch',
+    element: <CarnetSearch/>
   }
 ]);
 

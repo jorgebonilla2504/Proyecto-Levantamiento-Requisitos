@@ -69,7 +69,7 @@ export default function RNTable(props) {
       .then((cursos) => {
         let cursosStr = '';
         for (let i = 0; i < cursos.length; i++) {
-          if(i+1 == cursos.length){
+          if (i + 1 == cursos.length) {
             cursosStr += cursos[i].codigo + " " + cursos[i].nombre;
             break;
           }
@@ -105,7 +105,7 @@ export default function RNTable(props) {
       .then((cursos) => {
         let cursosStr = '';
         for (let i = 0; i < cursos.length; i++) {
-          if(i+1 == cursos.length){
+          if (i + 1 == cursos.length) {
             cursosStr += cursos[i].codigo_curso + " " + cursos[i].nombre_curso;
             break;
           }
@@ -217,15 +217,18 @@ export default function RNTable(props) {
           </tr>
         </thead>
         <tbody>
+          {tableData.length === 0 &&
+            <tr>No se encontraron resultados</tr>
+          }
           {tableData.map((item, index) => (
             <tr key={index}>
               <td>{item.carnet}</td>
               <td>{item.nombreCompleto}</td>
               <td>{item.nombreSede}</td>
               <td>{item.nombrePlanEstudios}</td>
-              <td><button onClick={() => {verCursosRN(item.fkSolicitud)}}>Ver</button></td>
+              <td><button onClick={() => { verCursosRN(item.fkSolicitud) }}>Ver</button></td>
               <td>{item.nivelRN}</td>
-              <td><button onClick={() => {verCursosMatricular(item.fkSolicitud)}}>Ver</button></td>
+              <td><button onClick={() => { verCursosMatricular(item.fkSolicitud) }}>Ver</button></td>
               <td>{item.razon}</td>
               <td>{item.estadoTexto}</td>
               <td><p>{item.comentarioEncargado}</p><input type="text" onChange={event => setComentario(event.target.value)} /></td>

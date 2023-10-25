@@ -60,7 +60,7 @@ export default function LevantamientosTable(props) {
       body: JSON.stringify(data),
     };
 
-    fetch(Config.api_url + 'GetRequestsNormal', requestOptions)
+    fetch(Config.api_url + 'GetRequests', requestOptions)
       .then(async (response) => {
         if (!response.ok) {
           return 'No se pudo realizar el request';
@@ -70,7 +70,6 @@ export default function LevantamientosTable(props) {
         }
       })
       .then((solicitudes) => {
-        console.log(solicitudes);
         setTableData(solicitudes);
       })
   }
@@ -136,6 +135,9 @@ export default function LevantamientosTable(props) {
           </tr>
         </thead>
         <tbody>
+          {tableData.length === 0 &&
+            <tr>No se encontraron resultados</tr>
+          }
           {tableData.map((item, index) => (
             <tr key={index}>
               <td>{item.carnet}</td>
