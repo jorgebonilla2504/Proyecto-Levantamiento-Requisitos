@@ -23,7 +23,6 @@ import {
 const router = Router();
 
 router.get('/GetRequests', GetRequests);
-router.get('/InformationDar', GenerarInforme);
 router.get('/SendResultRequest', SendResultRequest);
 router.post('/InsertRequest', InsertRequest);
 router.post('/InsertRequestRn', InsertRequestRN);
@@ -38,5 +37,6 @@ router.post('/DownloadInformation', GetInforme);
 router.post('/GetUserHistory', GetHistoryUser);
 router.post('/ObtenerCursosMXSolicitudRN', ObtenerCursosMXSolicitudRN);
 router.post('/ObtenerCursosXSolicitudRN', ObtenerCursosXSolicitudRN);
+router.post('/InformationDar', GenerarInforme);
 
 export default router;

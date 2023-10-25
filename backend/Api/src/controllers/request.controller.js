@@ -90,9 +90,13 @@ const InformationRequestDownload = (requestNormal, requestRN) => {
 
 export const GetInforme = async (req, res) => {
   try {
-    const { email } = req.body;
-    const Request = await getStateRequest(req, res);
-    const RequestRN = await getStateRequestRNDocuments(req, res);
+    const { email, idFormulario } = req.body;
+    const Request = await getStateRequestId(req, res, idFormulario);
+    const RequestRN = await getStateRequestRNDocumentsId(
+      req,
+      res,
+      idFormulario
+    );
     const Data = InformationRequestDownload(Request, RequestRN);
     await modificarArchivoCSV('src\\DOCS\\InformeRequerimientos.csv', Data);
     sendEmailDocs(email);
@@ -162,16 +166,21 @@ const InformationRequestRN = (request) => {
 // Returns the requests
 export const GenerarInforme = async (req, res) => {
   try {
-    const email = await GetEmails();
-    console.log(email);
-    const Request = await getStateRequest(req, res);
+    const { idFormulario } = await GetEmails();
+
+    const Request = await getStateRequestId(req, res, idFormulario);
     const Data = InformationRequest(Request);
     await modificarArchivoCSV('src\\DOCS\\levantamientoRequisitos.csv', Data);
-    const RequestRn = await getStateRequestRNDocuments(req, res);
+    const RequestRn = await getStateRequestRNDocumentsId(
+      req,
+      res,
+      idFormulario
+    );
     const DataRn = InformationRequestRN(RequestRn);
     await modificarArchivoCSV('src\\DOCS\\condicionRN.csv', DataRn);
-    sendEmailDocs(email[0]);
-    sendEmailDocs(email[1]);
+    //sendEmailDocs('eshuman@itcr.ac.cr');
+    //sendEmailDocs('bdittel@itcr.ac.cr');
+    sendEmailDocs('ljrivel16@gmail.com'); //email de prueba
     res.json({ mensaje: 'Correo Enviado' });
   } catch (error) {
     console.error('Error al Generar informe');
@@ -489,6 +498,29 @@ const getStateRequest = async (req, res) => {
   return request;
 };
 
+//getStateRequestid function to get the state of the requests
+// Gets the state of the requests
+// Returns the state of the requests
+// Returns an error message if the requests were not obtained correctly
+const getStateRequestId = async (req, res, id) => {
+  let request = [];
+
+  try {
+    const conn = await getConnection();
+    const [rows] = await conn.execute('CALL ObtenerResultadosNormalId(?)', [
+      id,
+    ]);
+    request = rows[0];
+    conn.release();
+    conn.destroy();
+  } catch (error) {
+    console.error('Error al obtener solicitudes');
+    res.status(500).json({ error: 'Error al obtener solicitudes' });
+  }
+
+  return request;
+};
+
 //getStateRequest function to get the state of the requests
 // Gets the state of the requests
 // Returns the state of the requests
@@ -524,6 +556,35 @@ const getStateRequestRNDocuments = async (req, res) => {
   try {
     const conn = await getConnection();
     const [rows] = await conn.execute('CALL ObtenerResultadosRN()');
+    request = rows[0];
+    conn.release();
+    conn.destroy();
+    //add name of the courses in list request
+    for (let i = 0; i < request.length; i++) {
+      const element = request[i];
+      const cursos = await GetCursosForDocumentacion(
+        req,
+        res,
+        element.idSolicitud
+      );
+      request[i].cursos = cursos[1];
+    }
+  } catch (error) {
+    console.error('Error al obtener solicitudes');
+    res.status(500).json({ error: 'Error al obtener solicitudes' });
+  }
+  return request;
+};
+
+// getStateRequestRNDocumentsId function to get the state of the requests
+// Gets the state of the requests
+// Returns the state of the requests
+const getStateRequestRNDocumentsId = async (req, res, id) => {
+  let request = [];
+
+  try {
+    const conn = await getConnection();
+    const [rows] = await conn.execute('CALL ObtenerResultadosRNId(?)', [id]);
     request = rows[0];
     conn.release();
     conn.destroy();
