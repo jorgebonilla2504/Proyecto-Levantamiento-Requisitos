@@ -1,25 +1,30 @@
 import { useNavigate } from "react-router-dom";
 import { setGlobalState } from "../state/FormState";
-export default function AdminHeader(){
+export default function AdminHeader() {
     const navigate = useNavigate();
     function close() {
         setGlobalState('isLoggedIn', false);
         navigate('/');
     }
 
-    function toNewAdmin(){
+    function toNewAdmin() {
         setGlobalState('isLoggedIn', true);
         navigate('/newadmin');
     }
 
-    function toHome(){
+    function toHome() {
         setGlobalState('isLoggedIn', true);
         navigate('/home');
     }
 
-    function toCarnetSearch(){
+    function toCarnetSearch() {
         setGlobalState('isLoggedIn', true);
         navigate('/carnetSearch');
+    }
+
+    function toUpload() {
+        setGlobalState('isLoggedIn', true);
+        navigate('/uploadCourses');
     }
     return <>
         <header>
@@ -30,6 +35,7 @@ export default function AdminHeader(){
                 <a onClick={toHome} href='#'>Inicio</a>
                 <a onClick={toCarnetSearch} href="#">Búsqueda por carnet</a>
                 <a onClick={toNewAdmin} href="#">Nuevo Administrador</a>
+                <a onClick={toUpload} href="#">Carga de cursos</a>
                 <a onClick={close} href="#">Cerrar sesión</a>
             </div>
         </header>

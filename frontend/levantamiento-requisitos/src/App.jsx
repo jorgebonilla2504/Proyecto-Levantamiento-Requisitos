@@ -5,6 +5,7 @@ import FormResults from './pages/admin/FormResults';
 import Login from './pages/admin/Login'
 import NewAdmin from './pages/admin/NewAdmin';
 import NewForm from './pages/admin/NewForm';
+import UploadCourses from './pages/admin/UploadCourses';
 import Form from "./pages/student/Form"
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
   {
     path: '/carnetSearch',
     element: <CarnetSearch/>
+  },
+  {
+    path: '/uploadCourses',
+    element: <UploadCourses/>
   }
 ]);
 

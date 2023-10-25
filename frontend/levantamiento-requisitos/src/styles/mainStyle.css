@@ -72,6 +72,12 @@ a {
     color: white;
     font-size: medium;
     margin-right: 1%;
+    cursor: pointer;
+    border: none;
+}
+
+.button:hover, .card:hover {
+    background: rgb(0, 54, 113);
 }
 
 .input {
@@ -200,6 +206,7 @@ textarea {
     border-radius: 10px;
     cursor: pointer;
     margin: 2%;
+    box-shadow: 0px 5px 5px rgb(197, 197, 197);
 }
 
 .btn-div {
