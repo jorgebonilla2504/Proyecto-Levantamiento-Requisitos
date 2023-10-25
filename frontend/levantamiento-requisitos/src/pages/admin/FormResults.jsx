@@ -18,8 +18,8 @@ function FormResults() {
     const [openConfirmationModalError] = useGlobalState('openConfirmationModalError');
     const downloadSuccessMsg = "Se ha generado el archivo CSV para la descarga, ingrese a su correo para descargar los resultados.";
     const darSuccessMsg = "Se ha generado el reporte DAR de manera correcta y ha sido enviado mediante un correo." 
-    let actMsg = downloadSuccessMsg;
-    let actTitle = "Éxito";
+    const [actMsg,setActMsg] = useState("");
+    const [actTitle,setActTitle] = useState("");
     function toAdminForm() {
         setGlobalState('isLoggedIn', true);
         navigate('/adminform/' + id);
@@ -42,13 +42,13 @@ function FormResults() {
         fetch(Config.api_url + 'DownloadInformation', requestOptions)
             .then((response) => {
                 if(!response.ok){
-                    actTitle = "Error";
-                    actMsg = "Ocurrió un error al generar el reporte, por favor intente de nuevo."
+                    setActTitle("Error")
+                    setActMsg("Ocurrió un error al generar el reporte, por favor intente de nuevo.")
                     setGlobalState('openConfirmationModalError', true);
                 }
                 else{
-                    actTitle = "Éxito";
-                    actMsg = downloadSuccessMsg;
+                    setActTitle("Éxito")
+                    setActMsg(downloadSuccessMsg)
                     setGlobalState("openConfirmationModalError", true);
                 }
             })
@@ -70,13 +70,13 @@ function FormResults() {
         fetch(Config.api_url + 'InformationDar', requestOptions)
             .then((response) => {
                 if(!response.ok){
-                    actTitle = "Error";
-                    actMsg = "Ocurrió un error al generar el reporte, por favor intente de nuevo."
+                    setActTitle("Error")
+                    setActMsg("Ocurrió un error al generar el reporte, por favor intente de nuevo.")
                     setGlobalState('openConfirmationModalError', true);
                 }
                 else{
-                    actTitle = "Éxito";
-                    actMsg = darSuccessMsg;
+                    setActTitle("Éxito")
+                    setActMsg(darSuccessMsg)
                     setGlobalState("openConfirmationModalError", true);
                 }
             })
