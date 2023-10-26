@@ -316,8 +316,41 @@ export const DeleteCurso = async (req, res) => {
   }
 };
 
+const formatCourses = (courses) => {
+  const uniqueData = [];
+  const seenCodes = {};
+
+  for (const item of courses) {
+    const codigo = item.codigo;
+    if (!seenCodes[codigo]) {
+      seenCodes[codigo] = true;
+      uniqueData.push(item);
+    }
+  }
+
+  courses = uniqueData;
+  let coursesFormated = '';
+  for (let i = 0; i < courses.length; i++) {
+    let course = courses[i];
+    let courseFormatedString =
+      '[ ' + course.codigo + ',' + course.nombre + ' ]';
+    if (coursesFormated === '') {
+      coursesFormated = coursesFormated + courseFormatedString;
+    } else {
+      coursesFormated = coursesFormated + ', ' + courseFormatedString;
+    }
+  }
+  return coursesFormated;
+};
+
 export const insertCursoDesdeJson = async (req, res) => {
   // "  [Codigo Curso,Nombre curso], [COD CURSO, NOMBRE CURSO]"
+  let { idPeriodo, cursos } = req.body;
+  cursos = JSON.parse(cursos);
+  cursos = formatCourses(cursos);
+
+  res.json({ mensaje: 'Curso insertado correctamente' });
+  /*
   try {
     const { idPeriodo, cursos } = req.body;
     const connection = await getConnection();
@@ -334,6 +367,7 @@ export const insertCursoDesdeJson = async (req, res) => {
     console.error('Error al insertar curso', error);
     res.status(500).json({ error: 'Error al insertar curso' });
   }
+  */
 };
 
 export const insertarFormulario = async (req, res) => {
@@ -457,4 +491,9 @@ export const getFormularios = async (req, res) => {
     console.error('Error al leer formularios', error);
     res.status(500).json({ error: 'Error al leer formularios' });
   }
+};
+
+export const insertCourseOfJson = async (req, res) => {
+  console.log(req.body);
+  res.json({ mensaje: 'Curso insertado correctamente' });
 };

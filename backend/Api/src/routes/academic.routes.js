@@ -27,6 +27,7 @@ import {
   UpdateCurso,
   getFormularioPeriodoPorId,
   getFormularios,
+  insertCourseOfJson,
 } from '../controllers/academic.controller';
 
 const router = Router();
@@ -34,6 +35,7 @@ const router = Router();
 router.get('/ListaPlanesEstudio', getPlanesEstudio);
 router.get('/ListaCursos', getListaCursos);
 router.get('/ListaSedes', getListaSedes);
+router.get('/GetFormularios', getFormularios);
 router.get('/ReadPeriodos', ReadPeriodos);
 router.post('/InsertarPlanEstudios', insertarPlanEstudios);
 router.post('/ReadPeriodo', ReadPeriodo);
@@ -55,6 +57,5 @@ router.post('/ActualizarFormulario', ActualizarFormulario);
 router.post('/DeleteFormulario', DeleteFormulario);
 router.post('/UpdateCurso', UpdateCurso);
 router.post('/GetFormularioPeriodoPorId', getFormularioPeriodoPorId);
-router.get('/GetFormularios', getFormularios);
 
 export default router;
