@@ -332,31 +332,25 @@ const formatCourses = (courses) => {
   let coursesFormated = '';
   for (let i = 0; i < courses.length; i++) {
     let course = courses[i];
-    let courseFormatedString =
-      '[ ' + course.codigo + ',' + course.nombre + ' ]';
+    let courseFormatedString = course.codigo + ',' + course.nombre;
     if (coursesFormated === '') {
       coursesFormated = coursesFormated + courseFormatedString;
     } else {
-      coursesFormated = coursesFormated + ', ' + courseFormatedString;
+      coursesFormated = coursesFormated + '; ' + courseFormatedString;
     }
   }
   return coursesFormated;
 };
 
 export const insertCursoDesdeJson = async (req, res) => {
-  // "  [Codigo Curso,Nombre curso], [COD CURSO, NOMBRE CURSO]"
-  let { idPeriodo, cursos } = req.body;
-  cursos = JSON.parse(cursos);
-  cursos = formatCourses(cursos);
-
-  res.json({ mensaje: 'Curso insertado correctamente' });
-  /*
   try {
-    const { idPeriodo, cursos } = req.body;
+    let { idPeriodo, cursos, fecha } = req.body;
+    cursos = JSON.parse(cursos);
+    cursos = formatCourses(cursos);
     const connection = await getConnection();
     const [rows] = await connection.execute(
-      'CALL InsertarCursosDesdeJSON(?, ?)',
-      [idPeriodo, cursos]
+      'CALL InsertarCursosDesdeJSON(?,?, ?)',
+      [fecha, idPeriodo, cursos]
     );
 
     res.json({ mensaje: 'Curso insertado correctamente' });
@@ -367,7 +361,6 @@ export const insertCursoDesdeJson = async (req, res) => {
     console.error('Error al insertar curso', error);
     res.status(500).json({ error: 'Error al insertar curso' });
   }
-  */
 };
 
 export const insertarFormulario = async (req, res) => {
