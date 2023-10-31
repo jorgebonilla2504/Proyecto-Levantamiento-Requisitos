@@ -8,6 +8,7 @@ import ConfirmModalError from "../../components/ConfirmationModalError";
 export default function NewForm() {
     const [isLoggedIn] = useGlobalState("isLoggedIn");
     const [fecha, setFecha] = useState('');
+    const [fechaInicio, setFechaInicio] = useState('');
     const [nombre, setNombre] = useState('');
     const [periodo, setPeriodo] = useState('1');
     const [openConfirmationModal] = useGlobalState('openConfirmationModal');
@@ -20,7 +21,7 @@ export default function NewForm() {
             'fechaVencimiento': fecha,
             'nombre': nombre,
             'semestre': periodo,
-            'periodo': periodo
+            'periodo': fechaInicio
         }
 
         const requestOptions = {
@@ -64,6 +65,10 @@ export default function NewForm() {
                 <div className='form'>
                     <h1>Nuevo Formulario</h1>
                     <form onSubmit={postForm}>
+                        <label htmlFor="fechaInicio">Fecha de inicio:</label>
+                        <br />
+                        <input className='input' type="date" name='fechaInicio' value={fechaInicio} onChange={event => setFechaInicio(event.target.value)} />
+                        <br />
                         <label htmlFor="fecha">Fecha de vencimiento:</label>
                         <br />
                         <input className='input' type="date" name='fecha' value={fecha} onChange={event => setFecha(event.target.value)} />
@@ -79,7 +84,7 @@ export default function NewForm() {
                             <option value="1">I Semestre</option>
                             <option value="2">II Semestre</option>
                             <option value="3">Verano</option>
-                        </select><br/>
+                        </select><br />
 
                         <button className='button' type="submit">Crear Formulario</button>
                     </form>

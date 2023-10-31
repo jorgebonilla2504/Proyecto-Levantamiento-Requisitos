@@ -9,6 +9,7 @@ export default function UploadCourses() {
   const [coursesData, setCoursesData] = useState('');
   const [periodo, setPeriodo] = useState('1');
   const [openConfirmationModal] = useGlobalState('openConfirmationModal');
+  const [fechaInicio, setFechaInicio] = useState('');
   const [openConfirmationModalError] = useGlobalState(
     'openConfirmationModalError'
   );
@@ -46,6 +47,7 @@ export default function UploadCourses() {
     const data = {
       idPeriodo: periodo,
       cursos: coursesData,
+      fecha: fechaInicio,
     };
 
     const requestOptions = {
@@ -106,6 +108,10 @@ export default function UploadCourses() {
           <option value="2">II Semestre</option>
           <option value="3">Verano</option>
         </select>
+        <br />
+        <label htmlFor="fechaInicio">Fecha de inicio del periodo:</label>
+        <br />
+        <input className='input' type="date" name='fechaInicio' value={fechaInicio} onChange={event => setFechaInicio(event.target.value)} />
         <br />
         <input
           type="file"
