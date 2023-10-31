@@ -2,9 +2,24 @@
 /* eslint-disable react/prop-types */
 import { useEffect } from "react";
 import { useState } from "react";
+import ReactPaginate from 'react-paginate';
 import { Config } from '../../config';
 export default function StudentRecordRn(props) {
   const [tableData, setTableData] = useState([{}]);
+
+  const [currentPage, setCurrentPage] = useState(0); // Página actual
+  const itemsPerPage = 5; // Cantidad de elementos por página
+  const pageCount = Math.ceil(tableData.length / itemsPerPage); // Cantidad de páginas
+
+  const handlePageClick = ({ selected }) => {
+    setCurrentPage(selected);
+  };
+
+  // Obtén los elementos a mostrar en la página actual
+  const displayedItems = tableData.slice(
+    currentPage * itemsPerPage,
+    (currentPage + 1) * itemsPerPage
+  );
 
   useEffect(() => {
     updateData();
@@ -62,7 +77,7 @@ export default function StudentRecordRn(props) {
             {tableData.length === 0 &&
               <tr>No se encontraron resultados</tr>
             }
-            {tableData.map((item, index) => (
+            {displayedItems.map((item, index) => (
               <tr key={index}>
                 <td>{item.carnet}</td>
                 <td>{item.nombreCompleto}</td>
@@ -89,6 +104,19 @@ export default function StudentRecordRn(props) {
             ))}
           </tbody>
         </table>
+        <ReactPaginate
+          className="paginate"
+          previousLabel={'< Anterior'}
+          nextLabel={'Siguiente >'}
+          breakLabel={'...'}
+          pageCount={pageCount}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={5}
+          onPageChange={handlePageClick}
+          containerClassName={'pagination'}
+          subContainerClassName={'pages pagination'}
+          activeClassName={'active'}
+        />
       </div>
     </>
   );
