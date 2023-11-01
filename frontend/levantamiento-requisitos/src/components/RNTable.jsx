@@ -15,7 +15,7 @@ export default function RNTable(props) {
   const [tableData, setTableData] = useState([{}]);
 
   const [currentPage, setCurrentPage] = useState(0); // Página actual
-  const itemsPerPage = 5; // Cantidad de elementos por página
+  const itemsPerPage = 10; // Cantidad de elementos por página
   const pageCount = Math.ceil(tableData.length / itemsPerPage); // Cantidad de páginas
 
   const handlePageClick = ({ selected }) => {
