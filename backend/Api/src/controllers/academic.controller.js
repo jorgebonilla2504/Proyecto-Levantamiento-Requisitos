@@ -475,7 +475,9 @@ export const ActualizarFormulario = async (req, res) => {
 export const getFormularios = async (req, res) => {
   try {
     const connection = await getConnection();
-    const [rows] = await connection.execute('CALL SeleccionarFormularios()');
+    let [rows] = await connection.execute('CALL SeleccionarFormularios()');
+    rows[0] = rows[0].reverse();
+
     res.json(rows);
 
     connection.release();
