@@ -17,9 +17,9 @@ function FormResults() {
     const [rnChecked, setRnChecked] = useState(0);
     const [openConfirmationModalError] = useGlobalState('openConfirmationModalError');
     const downloadSuccessMsg = "Se ha generado el archivo CSV para la descarga, ingrese a su correo para descargar los resultados.";
-    const darSuccessMsg = "Se ha generado el reporte DAR de manera correcta y ha sido enviado mediante un correo." 
-    const [actMsg,setActMsg] = useState("");
-    const [actTitle,setActTitle] = useState("");
+    const darSuccessMsg = "Se ha generado el reporte DAR de manera correcta y ha sido enviado mediante un correo."
+    const [actMsg, setActMsg] = useState("");
+    const [actTitle, setActTitle] = useState("");
     function toAdminForm() {
         setGlobalState('isLoggedIn', true);
         navigate('/adminform/' + id);
@@ -41,12 +41,12 @@ function FormResults() {
 
         fetch(Config.api_url + 'DownloadInformation', requestOptions)
             .then((response) => {
-                if(!response.ok){
+                if (!response.ok) {
                     setActTitle("Error")
                     setActMsg("Ocurrió un error al generar el reporte, por favor intente de nuevo.")
                     setGlobalState('openConfirmationModalError', true);
                 }
-                else{
+                else {
                     setActTitle("Éxito")
                     setActMsg(downloadSuccessMsg)
                     setGlobalState("openConfirmationModalError", true);
@@ -69,14 +69,30 @@ function FormResults() {
 
         fetch(Config.api_url + 'InformationDar', requestOptions)
             .then((response) => {
-                if(!response.ok){
+                if (!response.ok) {
                     setActTitle("Error")
                     setActMsg("Ocurrió un error al generar el reporte, por favor intente de nuevo.")
                     setGlobalState('openConfirmationModalError', true);
                 }
-                else{
+                else {
                     setActTitle("Éxito")
                     setActMsg(darSuccessMsg)
+                    setGlobalState("openConfirmationModalError", true);
+                }
+            })
+    }
+
+    function sendResults() {
+        fetch(Config.api_url + `SendResultRequest`)
+            .then(async (response) => {
+                if (!response.ok) {
+                    setActTitle("Error")
+                    setActMsg("Ocurrió un error al enviar los resultados, por favor intente de nuevo.")
+                    setGlobalState('openConfirmationModalError', true);
+                }
+                else {
+                    setActTitle("Éxito")
+                    setActMsg("Se enviaron los resultados de manera correcta.")
                     setGlobalState("openConfirmationModalError", true);
                 }
             })
@@ -98,13 +114,13 @@ function FormResults() {
     return (
         <>
             <AdminHeader></AdminHeader>
-                {
-                    openConfirmationModalError &&
-                    <ConfirmModalError
-                        title={actTitle}
-                        label={actMsg}>
-                    </ConfirmModalError>
-                }
+            {
+                openConfirmationModalError &&
+                <ConfirmModalError
+                    title={actTitle}
+                    label={actMsg}>
+                </ConfirmModalError>
+            }
             <div className='main-container'>
                 <h2>Mostrar resultados de: </h2>
                 <label htmlFor="">Levantamiento de requisitos</label>
@@ -115,6 +131,7 @@ function FormResults() {
                     <button className='button' onClick={() => { toAdminForm() }}>Nueva solicitud</button>
                     <button className='button' onClick={() => { downloadResults() }}>Descargar resultados</button>
                     <button className='button' onClick={() => { generateDar() }}>Generar reporte DAR</button>
+                    <button className='button' onClick={() => { sendResults() }}>Enviar resultados</button>
                 </div>
             </div>
             {tipo == 1 && <LevantamientosTable id={id}></LevantamientosTable>}
