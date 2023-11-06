@@ -180,11 +180,12 @@ export const GenerarInforme = async (req, res) => {
     const DataRn = InformationRequestRN(RequestRn);
     await modificarArchivoCSV('src\\DOCS\\condicionRN.csv', DataRn);
 
-    //sendEmailDocs('eshuman@itcr.ac.cr');
-    //sendEmailDocs('bdittel@itcr.ac.cr');
-    sendEmailDocs('ljrivel16@gmail.com'); //email de prueba
+    sendEmailDocs('eshuman@itcr.ac.cr');
+    sendEmailDocs('bdittel@itcr.ac.cr');
+
     res.json({ mensaje: 'Correo Enviado' });
   } catch (error) {
+    console.log(error);
     console.error('Error al Generar informe');
     res.status(500).json({ error: 'Error al  Generar informe' });
   }
@@ -404,25 +405,10 @@ const GetCursosForDocumentacion = async (req, res, id) => {
 
 // ------------------------------------- GETS  STATE REQUEST  -------------------------------------
 
-const GetEmails = async () => {
-  let emails = [];
-
-  try {
-    const conn = await getConnection();
-    const [rows] = await conn.execute('CALL GetEmails()');
-    for (let i = 1; i < rows[0].length; i++) {
-      const element = rows[0][i];
-      emails.push(element.email);
-    }
-    conn.release();
-    conn.destroy();
-    return emails;
-  } catch (error) {
-    console.error('Error al obtener solicitudes');
-    res.status(500).json({ error: 'Error al obtener solicitudes' });
-  }
-};
-
+// getStateRequest function to get the state of the requests
+// Gets the state of the requests
+// Returns the state of the requests
+// Returns an error message if the requests were not obtained correctly
 const GetUserRN = async (req, res, carnet) => {
   try {
     const connection = await getConnection();
@@ -448,6 +434,10 @@ const GetUserRN = async (req, res, carnet) => {
   }
 };
 
+// getStateRequest function to get the state of the requests
+// Gets the state of the requests
+// Returns the state of the requests
+// Returns an error message if the requests were not obtained correctly
 const GetUser = async (req, res, carnet) => {
   try {
     const connection = await getConnection();
@@ -464,6 +454,10 @@ const GetUser = async (req, res, carnet) => {
   }
 };
 
+// getStateRequest function to get the state of the requests
+// Gets the state of the requests
+// Returns the state of the requests
+// Returns an error message if the requests were not obtained correctly
 export const GetHistoryUser = async (req, res) => {
   try {
     let History = [];
@@ -493,7 +487,7 @@ const getStateRequest = async (req, res) => {
     conn.release();
     conn.destroy();
   } catch (error) {
-    console.error('Error al obtener solicitudes');
+    console.error('Error al obtener solicitudes normal');
     res.status(500).json({ error: 'Error al obtener solicitudes' });
   }
 
@@ -506,7 +500,6 @@ const getStateRequest = async (req, res) => {
 // Returns an error message if the requests were not obtained correctly
 const getStateRequestId = async (req, res, id) => {
   let request = [];
-
   try {
     const conn = await getConnection();
     const [rows] = await conn.execute('CALL ObtenerResultadosNormalId(?)', [
@@ -516,8 +509,7 @@ const getStateRequestId = async (req, res, id) => {
     conn.release();
     conn.destroy();
   } catch (error) {
-    console.log(error);
-    console.error('Error al obtener solicitudes');
+    console.error('Error al obtener solicitudes RequestId');
     res.status(500).json({ error: 'Error al obtener solicitudes' });
   }
 
@@ -544,7 +536,7 @@ const getStateRequestRN = async (req, res) => {
       request[i].cursos = cursos;
     }
   } catch (error) {
-    console.error('Error al obtener solicitudes');
+    console.error('Error al obtener solicitudes rn');
     res.status(500).json({ error: 'Error al obtener solicitudes' });
   }
   return request;
@@ -602,6 +594,7 @@ const getStateRequestRNDocumentsId = async (req, res, id) => {
       request[i].cursos = cursos[1];
     }
   } catch (error) {
+    console.log(error);
     console.error('Error al obtener solicitudes');
     res.status(500).json({ error: 'Error al obtener solicitudes' });
   }
@@ -871,6 +864,12 @@ export const DeleteRequestRN = async (req, res) => {
   }
 };
 
+// ----------------------------------------------------------GETS-----------------------------------------------------------
+
+// GetRequestsRN function to get the requests
+// Gets the requests
+// Returns the requests
+// Returns an error message if the requests were not obtained correctly
 export const GetRequestsRN = async (req, res) => {
   try {
     const { id } = req.body;
@@ -888,6 +887,10 @@ export const GetRequestsRN = async (req, res) => {
   }
 };
 
+// GetRequestsNormal function to get the requests
+// Gets the requests
+// Returns the requests
+// Returns an error message if the requests were not obtained correctly
 export const GetRequestsNormal = async (req, res) => {
   try {
     const { id } = req.body;
@@ -905,6 +908,10 @@ export const GetRequestsNormal = async (req, res) => {
   }
 };
 
+// GetRequests function to get the requests
+// Gets the requests
+// Returns the requests
+// Returns an error message if the requests were not obtained correctly
 export const GetRequests = async (req, res) => {
   try {
     const connection = await getConnection();
@@ -920,6 +927,10 @@ export const GetRequests = async (req, res) => {
   }
 };
 
+// GetRequests function to update state of the requests
+// Gets the requests
+// Returns the requests
+// Returns an error message if the requests were not obtained correctly
 export const UpdateSolicitud = async (req, res) => {
   try {
     const { idSolicitud, estado, comentario } = req.body;
@@ -937,6 +948,10 @@ export const UpdateSolicitud = async (req, res) => {
   }
 };
 
+// GetRequests function to update state of the requests notificacion
+// Gets the requests
+// Returns the requests
+// Returns an error message if the requests were not obtained correctly
 export const UpdateSolicitudNotificacion = async (req, res) => {
   try {
     const { idSolicitud, notificado } = req.body;
@@ -954,6 +969,10 @@ export const UpdateSolicitudNotificacion = async (req, res) => {
   }
 };
 
+// GetRequests function to update state of the requests with id
+// Gets the requests
+// Returns the requests
+// Returns an error message if the requests were not obtained correctly
 export const ObtenerSolicitudesRNPorId = async (req, res) => {
   try {
     const { idSolicitud } = req.body;
@@ -971,6 +990,10 @@ export const ObtenerSolicitudesRNPorId = async (req, res) => {
   }
 };
 
+// GetRequests function to update state of the requests courses levantar with id
+// Gets the requests
+// Returns the requests
+// Returns an error message if the requests were not obtained correctly
 export const ObtenerCursosXSolicitudRN = async (req, res) => {
   try {
     const { id } = req.body;
@@ -988,6 +1011,10 @@ export const ObtenerCursosXSolicitudRN = async (req, res) => {
   }
 };
 
+// GetRequests function to update state of the requests courses matricular with id
+// Gets the requests
+// Returns the requests
+// Returns an error message if the requests were not obtained correctly
 export const ObtenerCursosMXSolicitudRN = async (req, res) => {
   try {
     const { id } = req.body;
