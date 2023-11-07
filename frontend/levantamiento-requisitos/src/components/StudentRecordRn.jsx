@@ -62,6 +62,7 @@ export default function StudentRecordRn(props) {
         <table>
           <thead>
             <tr>
+              <th>Formulario</th>
               <th>Número de Carnet</th>
               <th>Nombre</th>
               <th>Sede</th>
@@ -79,6 +80,7 @@ export default function StudentRecordRn(props) {
             }
             {displayedItems.map((item, index) => (
               <tr key={index}>
+                <td>{item.nombre}</td>
                 <td>{item.carnet}</td>
                 <td>{item.nombreCompleto}</td>
                 <td>{item.nombreSede}</td>
